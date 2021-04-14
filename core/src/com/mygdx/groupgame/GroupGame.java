@@ -26,13 +26,15 @@ public class GroupGame extends Game {
 		public float touchY = 0;
 		public boolean touched = false;
 	}
+
 	TouchInfo finger;
 
 	Texture logo;
 
 	@Override
 	public void create () {
-
+		w = Gdx.graphics.getWidth();
+		h = Gdx.graphics.getHeight();
 		prefs = Gdx.app.getPreferences("GamePrefs");
 
 		batch = new SpriteBatch();

@@ -33,8 +33,8 @@ public class GameScreen extends ScreenAdapter {
 
         game.batch.begin();
         game.font.setColor(1, 1, 1, 1);
-        game.font.draw(game.batch, "Bingaming Game Main Loop", Gdx.graphics.getWidth() * .33f, Gdx.graphics.getHeight() * 0.89f);
-        game.font.draw(game.batch, "Tap screen for next", Gdx.graphics.getWidth() * .33f, Gdx.graphics.getHeight() * 0.79f);
+        game.font.draw(game.batch, "Bingaming Game Main Loop", game.w * .33f, game.h * 0.89f);
+        game.font.draw(game.batch, "Tap screen for next", game.w * .33f, game.h * 0.79f);
         game.batch.end();
     }
 
