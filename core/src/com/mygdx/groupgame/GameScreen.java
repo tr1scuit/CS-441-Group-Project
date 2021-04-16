@@ -47,13 +47,13 @@ public class GameScreen extends ScreenAdapter {
         //draw world
         if(gamePhase == 0){
             //game.runway.flip(1, 1);
-            game.batch.draw(game.runway.getTexture(), 0 - x, 0, game.runway.getWidth(), game.runway.getHeight(),
+            game.batch.draw(game.runway.getTexture(), 0 - x, 0 - y + 200, game.runway.getWidth(), game.runway.getHeight(),
                     (int)game.runway.getX(), (int)game.runway.getY(), (int)game.runway.getWidth(), (int)game.runway.getHeight(), false, false);
-            game.batch.draw(game.ground_loop.getTexture(), 0 - x + game.runway.getWidth(), 0);
+            game.batch.draw(game.ground_loop.getTexture(), 0 - x + game.runway.getWidth(), 0 - y + 200);
         }
         if(gamePhase == 1){
-            game.batch.draw(game.ground_loop.getTexture(), (0 - x + game.runway.getWidth()) % 3000, 0);
-            game.batch.draw(game.ground_loop.getTexture(), (0 - x + game.runway.getWidth()) % 3000 + game.ground_loop.getWidth(), 0);
+            game.batch.draw(game.ground_loop.getTexture(), (0 - x + game.runway.getWidth()) % 3000, 0-y+200);
+            game.batch.draw(game.ground_loop.getTexture(), (0 - x + game.runway.getWidth()) % 3000 + game.ground_loop.getWidth(), 0-y+200);
         }
         if(gamePhase == 2){
             game.batch.draw(game.runway.getTexture(), 0 - (x - levelLength - game.runway.getWidth() - game.plane.getWidth() - 100), 0, game.runway.getWidth(), game.runway.getHeight(),
@@ -64,7 +64,7 @@ public class GameScreen extends ScreenAdapter {
 
 
         // draw plane
-        game.batch.draw(game.plane.getTexture(), 100, 120);
+        game.batch.draw(game.plane.getTexture(), 100, 200);
 
         // draw ui
 
@@ -96,14 +96,17 @@ public class GameScreen extends ScreenAdapter {
 
         // update physics
         xVel += xAcc;
+        yVel += yAcc;
         if(xVel > 70){
             xVel = 70;
+            yAcc = 1;
         }
         if(xVel < 0){
             xVel = 0;
         }
 
         x += xVel;
+        y += yVel;
         if(x < 0){ x = 0;}
 
 
