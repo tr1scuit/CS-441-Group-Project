@@ -64,7 +64,10 @@ public class GameScreen extends ScreenAdapter {
 
 
         // draw plane
-        game.batch.draw(game.plane.getTexture(), 100, 200);
+        game.batch.draw(game.plane, 100, 200, (int)(100+game.plane.getWidth()/2), (int)(200-game.plane.getHeight()/2 - 44),
+                game.plane.getWidth(), game.plane.getHeight(), 1, 1, rot);
+
+        //SpriteBatch.draw(textureRegion, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
 
         // draw ui
 
@@ -79,20 +82,37 @@ public class GameScreen extends ScreenAdapter {
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 System.out.println("x,y: " + screenX +  ", " + screenY);
                 int renderY = game.h - screenY;
-                if(renderY > 540){
-                    xAcc += 0.5;
-                    if(xAcc > 2){
-                        xAcc = 2;
-                    }
-                } else if(renderY < 540){
-                    xAcc -= 0.5;
-                    if(xAcc < -1){
-                        xAcc = -1;
-                    }
-                }
+                game.finger.touchX = screenX;
+                game.finger.touchY = renderY;
+                game.finger.touched = true;
+                return true;
+        }
+            @Override
+            public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+                System.out.println("x,y: " + screenX +  ", " + screenY);
+                int renderY = game.h - screenY;
+                game.finger.touched = false;
                 return true;
             }
-        });
+            @Override
+            public boolean touchDragged(int screenX, int screenY, int pointer) {
+                System.out.println("x,y: " + screenX +  ", " + screenY);
+                int renderY = game.h - screenY;
+                game.finger.touchX = screenX;
+                game.finger.touchY = renderY;
+                game.finger.touched = true;
+                return true;
+            }});
+
+        // parse input
+
+        if(game.finger.touched && game.finger.touchY > 540){
+            rot++;
+        }
+        if(game.finger.touched && game.finger.touchY < 540){
+            rot--;
+        }
+
 
         // update physics
         xVel += xAcc;
@@ -101,6 +121,9 @@ public class GameScreen extends ScreenAdapter {
             xVel = 70;
             yAcc = 1;
         }
+        if(xVel < 68){
+            yAcc = -1;
+        }
         if(xVel < 0){
             xVel = 0;
         }
@@ -108,6 +131,7 @@ public class GameScreen extends ScreenAdapter {
         x += xVel;
         y += yVel;
         if(x < 0){ x = 0;}
+        if(y < 200) { y = 200; }
 
 
         // update gamestate flags
