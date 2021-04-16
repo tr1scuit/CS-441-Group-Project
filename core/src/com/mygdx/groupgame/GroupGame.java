@@ -30,6 +30,12 @@ public class GroupGame extends Game {
 	TouchInfo finger;
 
 	Texture logo;
+	Sprite runway;
+	Sprite plane;
+	Sprite ground_loop;
+	//Sprite sky_loop;
+	//Sprite cloud;
+	//Sprite bird;
 
 	@Override
 	public void create () {
@@ -42,6 +48,9 @@ public class GroupGame extends Game {
 		font.setColor(Color.WHITE);
 		finger = new TouchInfo();
 		logo = new Texture("Bingaming500.png");
+		runway = new Sprite(new Texture("runway_a.png"));
+		plane = new Sprite(new Texture("plane2.png"));
+		ground_loop = new Sprite(new Texture("grass_loop2.png"));
 		setScreen(new TitleScreen(this));
 	}
 
