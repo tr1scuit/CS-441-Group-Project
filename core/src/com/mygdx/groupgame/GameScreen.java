@@ -18,6 +18,8 @@ public class GameScreen extends ScreenAdapter {
     private float x = 0, y = 200;
     private float xVel = 0, yVel = 0;
     private float xAcc = 0, yAcc = 0;
+    private float lift = 0;
+    private float gravity = -2;
     private float rot = 0;
     //
 
@@ -41,8 +43,8 @@ public class GameScreen extends ScreenAdapter {
 
         game.batch.begin();
         game.font.setColor(1, 1, 1, 1);
-        game.font.draw(game.batch, "Plane Sim WIP1", game.w * .33f, game.h * 0.89f);
-        game.font.draw(game.batch, "Tap high for accel, tap low for decel", game.w * .33f, game.h * 0.79f);
+        game.font.draw(game.batch, "Plane Sim WIP1", game.w * .1f, game.h * 0.89f);
+        game.font.draw(game.batch, "Tap left corners for accel, tap right corners for rotation", game.w * .1f, game.h * 0.79f);
 
         //draw world
         if(gamePhase == 0){
@@ -56,9 +58,9 @@ public class GameScreen extends ScreenAdapter {
             game.batch.draw(game.ground_loop.getTexture(), (0 - x + game.runway.getWidth()) % 3000 + game.ground_loop.getWidth(), 0-y+200);
         }
         if(gamePhase == 2){
-            game.batch.draw(game.runway.getTexture(), 0 - (x - levelLength - game.runway.getWidth() - game.plane.getWidth() - 100), 0, game.runway.getWidth(), game.runway.getHeight(),
+            game.batch.draw(game.runway.getTexture(), 0 - (x - levelLength - game.runway.getWidth() - game.plane.getWidth() - 100), 0-y+200, game.runway.getWidth(), game.runway.getHeight(),
                     (int)game.runway.getX(), (int)game.runway.getY(), (int)game.runway.getWidth(), (int)game.runway.getHeight(), true, false);
-            game.batch.draw(game.ground_loop.getTexture(), 0 - (x - levelLength - game.runway.getWidth() - game.plane.getWidth() - 100), 0);
+            game.batch.draw(game.ground_loop.getTexture(), 0 - (x - levelLength - game.runway.getWidth() - game.plane.getWidth() - 100), 0-y+200);
         }
 
 
@@ -106,32 +108,70 @@ public class GameScreen extends ScreenAdapter {
 
         // parse input
 
-        if(game.finger.touched && game.finger.touchY > 540){
-            rot++;
+
+        // Horizontal Movement
+        if(game.finger.touched && game.finger.touchY > game.h/2 && game.finger.touchX < game.w / 2) {
+            xAcc += 0.5;
         }
-        if(game.finger.touched && game.finger.touchY < 540){
-            rot--;
+        if(game.finger.touched && game.finger.touchY < game.h/2 && game.finger.touchX < game.w / 2 ){
+            xAcc -= 0.5;
+        }
+        // Rotation
+        if(game.finger.touched && game.finger.touchY > game.h/2 && game.finger.touchX > game.w / 2) {
+            rot += 1;
+        }
+        if(game.finger.touched && game.finger.touchY < game.h/2 && game.finger.touchX > game.w / 2 ){
+            rot -= 1;
         }
 
 
-        // update physics
+        // update plane xy physics ( acceleration limit )
+        if(xAcc > 1){
+            xAcc = 1;
+        }
+        if(xAcc < -1){
+            xAcc = -1;
+        }
+        if(yAcc > 1){
+            yAcc = 1;
+        }
+        if(yAcc < -1){
+            yAcc = -1;
+        }
+
+        // nose down
+        if( rot%360 < (0) && rot%360 > (-50)){
+
+        }
+        // nose up
+        if( rot%360 >= (0) && rot%360 < (50)){
+
+        }
+
+
         xVel += xAcc;
         yVel += yAcc;
         if(xVel > 70){
             xVel = 70;
-            yAcc = 1;
+            yAcc += 0.5;
         }
         if(xVel < 68){
-            yAcc = -1;
+            yAcc -= 0.5;
         }
         if(xVel < 0){
             xVel = 0;
+        }
+        if(yVel > 10){
+            yVel = 10;
+        }
+        if(yVel < -10) {
+            yVel = -10;
         }
 
         x += xVel;
         y += yVel;
         if(x < 0){ x = 0;}
-        if(y < 200) { y = 200; }
+        if(y < 200) { y = 200; yVel = 0; }
 
 
         // update gamestate flags
@@ -149,13 +189,10 @@ public class GameScreen extends ScreenAdapter {
             game.setScreen(new EndScreen(game));
         }
         System.out.println("plane x, y:" + x + ", " + y);
-
     }
 
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
     }
-
 }
-
