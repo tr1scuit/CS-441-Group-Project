@@ -12,27 +12,30 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import entities.Plane;
+
 public class GroupGame extends Game {
 
-	Preferences prefs;
+	public Preferences prefs;
 
-	SpriteBatch batch;
-	ShapeRenderer shapeRenderer;
-	BitmapFont font;
-	int w, h;
+	public SpriteBatch batch;
+	public ShapeRenderer shapeRenderer;
+	public BitmapFont font;
+	public int w, h;
+	public Plane airplane;
 
-	class TouchInfo{
+	public class TouchInfo{
 		public float touchX = 0;
 		public float touchY = 0;
 		public boolean touched = false;
 	}
 
-	TouchInfo finger;
+	public TouchInfo finger;
 
-	Texture logo;
-	Sprite runway;
-	Sprite plane;
-	Sprite ground_loop;
+	public Texture logo;
+	public Sprite runway;
+	public Sprite plane;
+	public Sprite ground_loop;
 	//Sprite sky_loop;
 	//Sprite cloud;
 	//Sprite bird;
@@ -51,6 +54,7 @@ public class GroupGame extends Game {
 		runway = new Sprite(new Texture("runway_a.png"));
 		plane = new Sprite(new Texture("plane2.png"));
 		ground_loop = new Sprite(new Texture("grass_loop2.png"));
+		airplane = new Plane(this);
 		setScreen(new TitleScreen(this));
 	}
 

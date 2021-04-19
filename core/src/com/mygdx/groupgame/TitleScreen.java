@@ -29,6 +29,10 @@ public class TitleScreen extends ScreenAdapter {
         });
     }
 
+
+
+
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 97/255f, 67/255f, 1);
@@ -52,10 +56,10 @@ public class TitleScreen extends ScreenAdapter {
     public void resume() {
     }
 */
-    @Override
-    public void hide() {
-        Gdx.input.setInputProcessor(null);
-    }
+//    @Override
+//    public void hide() {
+//        Gdx.input.setInputProcessor(null);
+//    }
 
 
 }
