@@ -80,6 +80,7 @@ public class Plane {
         if(x < 0){ x = 0;}
         if(y < 200) { y = 200; yVel = 0; }
 
+        // debug line
         System.out.println("plane x, y:" + x + ", " + y);
     }
 }
