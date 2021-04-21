@@ -29,10 +29,6 @@ public class TitleScreen extends ScreenAdapter {
         });
     }
 
-
-
-
-
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 97/255f, 67/255f, 1);

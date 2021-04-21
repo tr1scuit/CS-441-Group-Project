@@ -31,7 +31,6 @@ public class Plane {
             rot -= 1;
         }
 
-
         // update plane xy physics ( acceleration limit )
         if(xAcc > 1){
             xAcc = 1;
@@ -48,7 +47,6 @@ public class Plane {
 
         // nose down
         if( rot%360 < (0) && rot%360 > (-50)){
-
         }
         // nose up
         if( rot%360 >= (0) && rot%360 < (50)){

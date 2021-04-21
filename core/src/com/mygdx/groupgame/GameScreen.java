@@ -52,6 +52,7 @@ public class GameScreen extends ScreenAdapter {
 
         game.batch.begin();
         game.font.setColor(1, 1, 1, 1);
+        game.font.getData().setScale(1.0f, 1.0f);
         game.font.draw(game.batch, "Plane Sim WIP1", game.w * .1f, game.h * 0.89f);
         game.font.draw(game.batch, "Tap left corners for accel, tap right corners for rotation", game.w * .1f, game.h * 0.79f);
 
@@ -82,11 +83,17 @@ public class GameScreen extends ScreenAdapter {
 
         // draw ui
 
+        // draw debug values
+        game.font.getData().setScale(0.7f, 0.7f);
+        game.font.draw(game.batch, "vel x,y: " + plane.xVel + " " + plane.yVel, game.w * .05f, game.h * 0.7f);
+        game.font.draw(game.batch, "acc x,y: " + plane.xAcc + " " + plane.yAcc, game.w * .05f, game.h * 0.65f);
+
         game.batch.end();
     }
 
     public void update(){
         plane.update();
+
         // update gamestate flags
         // in-the-air
         if(plane.x > game.runway.getWidth()){
