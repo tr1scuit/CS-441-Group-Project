@@ -37,6 +37,7 @@ public class Plane {
         if(game.finger.touched && game.finger.touchY < game.h/2 && game.finger.touchX > game.w / 2 ){
             rot -= 1;
         }
+        yAcc = rot / 90;
 
         // update plane xy physics ( acceleration limit )
 //        if(xAcc > 1){
@@ -65,7 +66,7 @@ public class Plane {
         yVel += yAcc;
         if(xVel > 70){
             xVel = 70;
-            yAcc += 0.5;
+//            yAcc += 0.5;
         }
         if(xVel < 68){
             yAcc -= 0.5;

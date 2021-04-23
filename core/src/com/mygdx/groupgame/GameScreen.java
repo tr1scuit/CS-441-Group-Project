@@ -76,6 +76,7 @@ public class GameScreen extends ScreenAdapter {
         game.font.getData().setScale(0.7f, 0.7f);
         game.font.draw(game.batch, "vel x,y: " + plane.xVel + " " + plane.yVel, game.w * .05f, game.h * 0.7f);
         game.font.draw(game.batch, "acc x,y: " + plane.xAcc + " " + plane.yAcc, game.w * .05f, game.h * 0.65f);
+        game.font.draw(game.batch, "rotation: " + plane.rot + " " + "", game.w * 0.5f, game.h * 0.6f);
 
         game.batch.end();
     }
