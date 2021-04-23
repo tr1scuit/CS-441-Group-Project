@@ -27,6 +27,7 @@ public class TitleScreen extends ScreenAdapter {
                 return true;
             }
         });
+
     }
 
     @Override

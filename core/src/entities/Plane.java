@@ -1,5 +1,6 @@
 package entities;
 
+
 import com.mygdx.groupgame.GroupGame;
 
 public class Plane {
@@ -17,12 +18,18 @@ public class Plane {
 
     public void update(){
         // Horizontal Movement
+
         if(game.finger.touched && game.finger.touchY > game.h/2 && game.finger.touchX < game.w / 2) {
-            xAcc += 0.5;
+            xAcc = 0.5f;
         }
-        if(game.finger.touched && game.finger.touchY < game.h/2 && game.finger.touchX < game.w / 2 ){
-            xAcc -= 0.5;
+        else if(game.finger.touched && game.finger.touchY < game.h/2 && game.finger.touchX < game.w / 2 ){
+            xAcc = -0.5f;
         }
+        else {
+            xAcc = 0f;
+        }
+
+
         // Rotation
         if(game.finger.touched && game.finger.touchY > game.h/2 && game.finger.touchX > game.w / 2) {
             rot += 1;
@@ -32,12 +39,12 @@ public class Plane {
         }
 
         // update plane xy physics ( acceleration limit )
-        if(xAcc > 1){
-            xAcc = 1;
-        }
-        if(xAcc < -1){
-            xAcc = -1;
-        }
+//        if(xAcc > 1){
+//            xAcc = 1;
+//        }
+//        if(xAcc < -1){
+//            xAcc = -1;
+//        }
         if(yAcc > 1){
             yAcc = 1;
         }
