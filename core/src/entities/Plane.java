@@ -20,17 +20,10 @@ public class Plane {
         // Horizontal Movement
 
         if(game.finger.touched && game.finger.touchY > game.h/2 && game.finger.touchX < game.w / 2) {
-<<<<<<< HEAD
-            xAcc += 0.15;
-        }
-        if(game.finger.touched && game.finger.touchY < game.h/2 && game.finger.touchX < game.w / 2 ){
-            xAcc -= 0.15;
-=======
-            xAcc = 0.5f;
+            xAcc = 1f;
         }
         else if(game.finger.touched && game.finger.touchY < game.h/2 && game.finger.touchX < game.w / 2 ){
-            xAcc = -0.5f;
->>>>>>> a1b949da37d7139b0e6150272c1ccdeb2dcd76d8
+            xAcc = -1f;
         }
         else {
             xAcc = 0f;
@@ -39,24 +32,22 @@ public class Plane {
 
         // Rotation
         if(game.finger.touched && game.finger.touchY > game.h/2 && game.finger.touchX > game.w / 2) {
-            yAcc += 0.15;
+            rot += 1;
         }
         if(game.finger.touched && game.finger.touchY < game.h/2 && game.finger.touchX > game.w / 2 ){
-            yAcc -= 0.15;
+            rot -= 1;
         }
-        yAcc = rot / 90;
+
+        // only apply lift if a certain speed
+        if(xVel > 60 && rot > 0){
+            yAcc = rot / 90;
+        }
+        if(rot < 0){
+            yAcc = rot / 90;
+        }
+
 
         // update plane xy physics ( acceleration limit )
-<<<<<<< HEAD
-        if(xAcc > 1f){
-            xAcc = 1f;
-        }
-        if(xAcc < -1f){
-            xAcc = -1f;
-        }
-        if(yAcc > 1f){
-            yAcc = 1f;
-=======
 //        if(xAcc > 1){
 //            xAcc = 1;
 //        }
@@ -65,10 +56,9 @@ public class Plane {
 //        }
         if(yAcc > 1){
             yAcc = 1;
->>>>>>> a1b949da37d7139b0e6150272c1ccdeb2dcd76d8
         }
-        if(yAcc < -1f){
-            yAcc = -1f;
+        if(yAcc < -1){
+            yAcc = -1;
         }
 
         // nose down
@@ -82,27 +72,21 @@ public class Plane {
 
         xVel += xAcc;
         yVel += yAcc;
-<<<<<<< HEAD
-        if(xVel > 70f){
-            xVel = 70f;
-            //yAcc += 0.5;
-=======
         if(xVel > 70){
             xVel = 70;
 //            yAcc += 0.5;
->>>>>>> a1b949da37d7139b0e6150272c1ccdeb2dcd76d8
         }
-        if(xVel < 68f){
-            //yAcc -= 0.5;
+        if(xVel < 68){
+            yAcc -= 0.5;
         }
-        if(xVel < 0f){
+        if(xVel < 0){
             xVel = 0;
         }
-        if(yVel > 10f){
-            yVel = 10f;
+        if(yVel > 10){
+            yVel = 10;
         }
-        if(yVel < -30f) {
-            yVel = -30f;
+        if(yVel < -10) {
+            yVel = -10;
         }
 
         x += xVel;

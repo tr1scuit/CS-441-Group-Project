@@ -29,6 +29,19 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void show(){
+        // reset all gamestate variables
+        // plane position
+        // bird status
+        // management trackers
+        plane.x = 0;
+        plane.y = 200;
+        plane.xVel = 0;
+        plane.yVel = 0;
+        plane.xAcc = 0;
+        plane.yAcc = 0;
+        plane.lift = 0;
+        plane.gravity = -1;
+        plane.rot = 0;
     }
 
     @Override
