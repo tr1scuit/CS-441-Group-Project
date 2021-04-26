@@ -5,9 +5,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
+import entities.Bird;
 import entities.Plane;
 import helpers.InputHandler;
+
 
 public class GameScreen extends ScreenAdapter {
 
@@ -18,6 +21,11 @@ public class GameScreen extends ScreenAdapter {
     private int gamePhase = 0;
     private float levelLength;
     private Plane plane;
+
+    public static final float OBSTACLE_SPAWN_TIME = 0.25f;  //obstacle spawn time
+    private Array<Bird> birds = new Array<Bird>(); // bird obstacle
+    private float obstacleTimer;    // timer for obstacles
+
 
 
     public GameScreen(GroupGame game, float levelLength){
@@ -34,7 +42,7 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
 
-        update();
+        update(delta);
 
         Gdx.gl.glClearColor(88/255f, 88/255f, 128/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -61,9 +69,14 @@ public class GameScreen extends ScreenAdapter {
                     (int)game.runway.getX(), (int)game.runway.getY(), (int)game.runway.getWidth(), (int)game.runway.getHeight(), true, false);
             game.batch.draw(game.ground_loop.getTexture(), 0 - (plane.x - levelLength - game.runway.getWidth() - game.plane.getWidth() - 100), 0-plane.y+200);
         }
+/*
+        //draw obstacles
+            //draw bird
+        for (Bird obstacle : birds){
+            
+        }
 
-
-
+*/
         // draw plane
         game.batch.draw(game.plane, 100, 200, (int)(100+game.plane.getWidth()/2), (int)(200-game.plane.getHeight()/2 - 44),
                 game.plane.getWidth(), game.plane.getHeight(), 1, 1, plane.rot);
@@ -80,9 +93,27 @@ public class GameScreen extends ScreenAdapter {
 
         game.batch.end();
     }
+/*          // if draw in render(), no need for this block
+    public void renderObs(float delta){
 
-    public void update(){
+        update(delta);
+
+        //clear screen
+        // GdxUtils.clearScreen();
+
+        renderDebugObs();
+
+    }
+
+    public void renderDebugObs(){
+
+        renderer.setProjectMatrix
+
+    }
+*/
+    public void update(float delta){
         plane.update();
+        updateObstacles(delta);
 
         // update gamestate flags
         // in-the-air
@@ -97,6 +128,35 @@ public class GameScreen extends ScreenAdapter {
         if(plane.x > game.runway.getWidth()*2 + levelLength){
             gamePhase = 0;
             game.setScreen(new EndScreen(game));
+        }
+
+    }
+
+    private void updateObstacles(float delta) {
+
+        for(Bird obstacle: birds){
+            obstacle.update();
+        }
+
+        createNewObstacle(delta);
+    }
+
+    private void createNewObstacle(float delta) {
+
+        obstacleTimer += delta;      //delta
+
+        if(obstacleTimer >= OBSTACLE_SPAWN_TIME){
+
+            float min = 0f;
+            float max = 12534f; //instead of the number it should be world width
+            float obstacleX = MathUtils.random(min,max);
+            float obstacleY = 152351f; // instead of number, it should be world height or swap X and Y
+
+            Bird obstacle = new Bird();
+           obstacle.setPosition(obstacleX,obstacleY);
+
+            birds.add (obstacle);
+            obstacleTimer = 0f;
         }
 
     }
