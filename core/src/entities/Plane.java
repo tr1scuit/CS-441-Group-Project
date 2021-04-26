@@ -18,31 +18,31 @@ public class Plane {
     public void update(){
         // Horizontal Movement
         if(game.finger.touched && game.finger.touchY > game.h/2 && game.finger.touchX < game.w / 2) {
-            xAcc += 0.5;
+            xAcc += 0.15;
         }
         if(game.finger.touched && game.finger.touchY < game.h/2 && game.finger.touchX < game.w / 2 ){
-            xAcc -= 0.5;
+            xAcc -= 0.15;
         }
         // Rotation
         if(game.finger.touched && game.finger.touchY > game.h/2 && game.finger.touchX > game.w / 2) {
-            rot += 1;
+            yAcc += 0.15;
         }
         if(game.finger.touched && game.finger.touchY < game.h/2 && game.finger.touchX > game.w / 2 ){
-            rot -= 1;
+            yAcc -= 0.15;
         }
 
         // update plane xy physics ( acceleration limit )
-        if(xAcc > 1){
-            xAcc = 1;
+        if(xAcc > 1f){
+            xAcc = 1f;
         }
-        if(xAcc < -1){
-            xAcc = -1;
+        if(xAcc < -1f){
+            xAcc = -1f;
         }
-        if(yAcc > 1){
-            yAcc = 1;
+        if(yAcc > 1f){
+            yAcc = 1f;
         }
-        if(yAcc < -1){
-            yAcc = -1;
+        if(yAcc < -1f){
+            yAcc = -1f;
         }
 
         // nose down
@@ -56,21 +56,21 @@ public class Plane {
 
         xVel += xAcc;
         yVel += yAcc;
-        if(xVel > 70){
-            xVel = 70;
-            yAcc += 0.5;
+        if(xVel > 70f){
+            xVel = 70f;
+            //yAcc += 0.5;
         }
-        if(xVel < 68){
-            yAcc -= 0.5;
+        if(xVel < 68f){
+            //yAcc -= 0.5;
         }
-        if(xVel < 0){
+        if(xVel < 0f){
             xVel = 0;
         }
-        if(yVel > 10){
-            yVel = 10;
+        if(yVel > 10f){
+            yVel = 10f;
         }
-        if(yVel < -10) {
-            yVel = -10;
+        if(yVel < -30f) {
+            yVel = -30f;
         }
 
         x += xVel;

@@ -64,20 +64,39 @@ public class GameScreen extends ScreenAdapter {
             game.batch.draw(game.ground_loop.getTexture(), 0 - plane.x + game.runway.getWidth(), 0 - plane.y + 200);
         }
         if(gamePhase == 1){
+            // grass loop
             game.batch.draw(game.ground_loop.getTexture(), (0 - plane.x + game.runway.getWidth()) % 3000, 0-plane.y+200);
             game.batch.draw(game.ground_loop.getTexture(), (0 - plane.x + game.runway.getWidth()) % 3000 + game.ground_loop.getWidth(), 0-plane.y+200);
         }
         if(gamePhase == 2){
+            //reversed runway texture
             game.batch.draw(game.runway.getTexture(), 0 - (plane.x - levelLength - game.runway.getWidth() - game.plane.getWidth() - 100), 0-plane.y+200, game.runway.getWidth(), game.runway.getHeight(),
                     (int)game.runway.getX(), (int)game.runway.getY(), (int)game.runway.getWidth(), (int)game.runway.getHeight(), true, false);
+            // grass loop
             game.batch.draw(game.ground_loop.getTexture(), 0 - (plane.x - levelLength - game.runway.getWidth() - game.plane.getWidth() - 100), 0-plane.y+200);
+            game.batch.draw(game.ground_loop.getTexture(), 0 - (plane.x - levelLength - game.runway.getWidth()*2 -  game.plane.getWidth() - 100), 0-plane.y+200);
+            game.batch.draw(game.ground_loop.getTexture(), plane.x - (plane.x - levelLength - game.plane.getWidth() - 100), 0-plane.y+200);
         }
 
 
-
         // draw plane
-        game.batch.draw(game.plane, 100, 200, (int)(100+game.plane.getWidth()/2), (int)(200-game.plane.getHeight()/2 - 44),
-                game.plane.getWidth(), game.plane.getHeight(), 1, 1, plane.rot);
+        // SPECIFIC Coordinates for Hit Detection
+
+        int planeHitX1 = 100;
+        int planeHitY1 = (int)plane.y;
+        int planeHitX2 = (int)(100 + game.plane.getWidth());
+        int planeHitY2 = (int)(plane.y+game.plane.getHeight());
+
+        // specific phase for under 500y
+        if(plane.y < 420){
+            game.batch.draw(game.plane, 100, plane.y, (int)(100+game.plane.getWidth()/2), (int)(200-game.plane.getHeight()/2 - 44),
+                    game.plane.getWidth(), game.plane.getHeight(), 1, 1, plane.rot);
+        }
+        if(plane.y >= 420){
+            game.batch.draw(game.plane, 100, 420, (int)(100+game.plane.getWidth()/2), (int)(200-game.plane.getHeight()/2 - 44),
+                    game.plane.getWidth(), game.plane.getHeight(), 1, 1, plane.rot);
+        }
+
 
         //SpriteBatch.draw(textureRegion, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
 
@@ -85,6 +104,7 @@ public class GameScreen extends ScreenAdapter {
 
         // draw debug values
         game.font.getData().setScale(0.7f, 0.7f);
+        game.font.draw(game.batch, "x,y: " + plane.x + " " + plane.y, game.w * .05f, game.h * 0.6f);
         game.font.draw(game.batch, "vel x,y: " + plane.xVel + " " + plane.yVel, game.w * .05f, game.h * 0.7f);
         game.font.draw(game.batch, "acc x,y: " + plane.xAcc + " " + plane.yAcc, game.w * .05f, game.h * 0.65f);
 
