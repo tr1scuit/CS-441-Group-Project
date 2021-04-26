@@ -51,9 +51,9 @@ public class GroupGame extends Game {
 		font.setColor(Color.WHITE);
 		finger = new TouchInfo();
 		logo = new Texture("Bingaming500.png");
-		runway = new Sprite(new Texture("runway_a.png"));
-		plane = new Sprite(new Texture("plane2.png"));
-		ground_loop = new Sprite(new Texture("grass_loop2.png"));
+		runway = new Sprite(new Texture("runway_f.png"));
+		plane = new Sprite(new Texture("airplane.png"));
+		ground_loop = new Sprite(new Texture("grass_loop_f.png"));
 		airplane = new Plane(this);
 		setScreen(new TitleScreen(this));
 	}

@@ -20,10 +20,10 @@ public class Plane {
         // Horizontal Movement
 
         if(game.finger.touched && game.finger.touchY > game.h/2 && game.finger.touchX < game.w / 2) {
-            xAcc = 0.5f;
+            xAcc = 1f;
         }
         else if(game.finger.touched && game.finger.touchY < game.h/2 && game.finger.touchX < game.w / 2 ){
-            xAcc = -0.5f;
+            xAcc = -1f;
         }
         else {
             xAcc = 0f;
@@ -37,7 +37,15 @@ public class Plane {
         if(game.finger.touched && game.finger.touchY < game.h/2 && game.finger.touchX > game.w / 2 ){
             rot -= 1;
         }
-        yAcc = rot / 90;
+
+        // only apply lift if a certain speed
+        if(xVel > 60 && rot > 0){
+            yAcc = rot / 90;
+        }
+        if(rot < 0){
+            yAcc = rot / 90;
+        }
+
 
         // update plane xy physics ( acceleration limit )
 //        if(xAcc > 1){
