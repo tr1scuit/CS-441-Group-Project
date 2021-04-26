@@ -1,5 +1,6 @@
 package entities;
 
+
 import com.mygdx.groupgame.GroupGame;
 
 public class Plane {
@@ -17,12 +18,25 @@ public class Plane {
 
     public void update(){
         // Horizontal Movement
+
         if(game.finger.touched && game.finger.touchY > game.h/2 && game.finger.touchX < game.w / 2) {
+<<<<<<< HEAD
             xAcc += 0.15;
         }
         if(game.finger.touched && game.finger.touchY < game.h/2 && game.finger.touchX < game.w / 2 ){
             xAcc -= 0.15;
+=======
+            xAcc = 0.5f;
         }
+        else if(game.finger.touched && game.finger.touchY < game.h/2 && game.finger.touchX < game.w / 2 ){
+            xAcc = -0.5f;
+>>>>>>> a1b949da37d7139b0e6150272c1ccdeb2dcd76d8
+        }
+        else {
+            xAcc = 0f;
+        }
+
+
         // Rotation
         if(game.finger.touched && game.finger.touchY > game.h/2 && game.finger.touchX > game.w / 2) {
             yAcc += 0.15;
@@ -30,8 +44,10 @@ public class Plane {
         if(game.finger.touched && game.finger.touchY < game.h/2 && game.finger.touchX > game.w / 2 ){
             yAcc -= 0.15;
         }
+        yAcc = rot / 90;
 
         // update plane xy physics ( acceleration limit )
+<<<<<<< HEAD
         if(xAcc > 1f){
             xAcc = 1f;
         }
@@ -40,6 +56,16 @@ public class Plane {
         }
         if(yAcc > 1f){
             yAcc = 1f;
+=======
+//        if(xAcc > 1){
+//            xAcc = 1;
+//        }
+//        if(xAcc < -1){
+//            xAcc = -1;
+//        }
+        if(yAcc > 1){
+            yAcc = 1;
+>>>>>>> a1b949da37d7139b0e6150272c1ccdeb2dcd76d8
         }
         if(yAcc < -1f){
             yAcc = -1f;
@@ -56,9 +82,15 @@ public class Plane {
 
         xVel += xAcc;
         yVel += yAcc;
+<<<<<<< HEAD
         if(xVel > 70f){
             xVel = 70f;
             //yAcc += 0.5;
+=======
+        if(xVel > 70){
+            xVel = 70;
+//            yAcc += 0.5;
+>>>>>>> a1b949da37d7139b0e6150272c1ccdeb2dcd76d8
         }
         if(xVel < 68f){
             //yAcc -= 0.5;

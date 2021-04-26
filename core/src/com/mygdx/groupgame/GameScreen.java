@@ -27,19 +27,8 @@ public class GameScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(new InputHandler(game));
     }
 
-
-    // reset plane / management variables
     @Override
     public void show(){
-        plane.x = 0;
-        plane.y = 200;
-        plane.xVel = 0;
-        plane.yVel = 0;
-        plane.xAcc = 0;
-        plane.yAcc = 0;
-        plane.lift = 0;
-        plane.gravity = -2;
-        plane.rot = 0;
     }
 
     @Override
@@ -107,6 +96,7 @@ public class GameScreen extends ScreenAdapter {
         game.font.draw(game.batch, "x,y: " + plane.x + " " + plane.y, game.w * .05f, game.h * 0.6f);
         game.font.draw(game.batch, "vel x,y: " + plane.xVel + " " + plane.yVel, game.w * .05f, game.h * 0.7f);
         game.font.draw(game.batch, "acc x,y: " + plane.xAcc + " " + plane.yAcc, game.w * .05f, game.h * 0.65f);
+        game.font.draw(game.batch, "rotation: " + plane.rot + " " + "", game.w * 0.5f, game.h * 0.6f);
 
         game.batch.end();
     }
