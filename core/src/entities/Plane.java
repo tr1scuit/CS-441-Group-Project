@@ -13,12 +13,16 @@ public class Plane {
     public float gravity = -2;
     public float rot = 0;
     private Polygon boundingRect;
+    private float width, height;
 
     private GroupGame game;
     public Plane(GroupGame game){
         this.game = game;
-        boundingRect = new Polygon(new float[]{100,200, 100+game.plane.getWidth(),200, 100+game.plane.getWidth(),200+game.plane.getHeight(), 100,200+game.plane.getHeight()});
-        boundingRect.setOrigin(game.plane.getWidth()/2, game.plane.getHeight()/2);
+        this.width = game.plane.getWidth();
+        this.height = game.plane.getHeight();
+        boundingRect = new Polygon(new float[]{0,0, width,0, width,height, 0,height});
+        boundingRect.setPosition(100,200);
+        boundingRect.setOrigin((int)(100+game.plane.getWidth()/2), (int)(200-game.plane.getHeight()/2 - 44));
     }
 
     public Polygon getBoundingRect(){
@@ -103,6 +107,7 @@ public class Plane {
         if(x < 0){ x = 0;}
         if(y < 200) { y = 200; yVel = 0; }
 
+        boundingRect.setRotation(rot);
         // debug line
 //        System.out.println("plane x, y:" + x + ", " + y);
     }

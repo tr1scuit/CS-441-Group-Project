@@ -118,7 +118,7 @@ public class GameScreen extends ScreenAdapter {
         shapeRenderer.setColor(Color.RED);
         shapeRenderer.polygon(plane.getBoundingRect().getTransformedVertices());
         for(Bird bird : birds){
-            shapeRenderer.circle(bird.getBoundingCircle().x, bird.getBoundingCircle().y, bird.getBoundingCircle().radius);
+            shapeRenderer.circle(bird.getBoundingCircle().x, 0-plane.y+bird.getBoundingCircle().y, bird.getBoundingCircle().radius);
         }
         shapeRenderer.end();
     }
