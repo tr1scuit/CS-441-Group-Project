@@ -22,6 +22,7 @@ public class Plane {
         this.height = game.plane.getHeight();
         boundingRect = new Polygon(new float[]{0,0, width,0, width,height, 0,height});
         boundingRect.setPosition(100,200);
+        // rotation point for bounding rectangle is lower (because of plane center of gravity)
         boundingRect.setOrigin((int)(100+game.plane.getWidth()/2), (int)(200-game.plane.getHeight()/2 - 44));
     }
 

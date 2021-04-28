@@ -40,7 +40,7 @@ public class GameScreen extends ScreenAdapter {
         this.levelLength = levelLength;
         this.plane = game.airplane;
         this.shapeRenderer = game.shapeRenderer;
-        birds.add(new Bird(Gdx.graphics.getWidth(), 200, game.bird));
+        birds.add(new Bird(Gdx.graphics.getWidth(), 1000, game.bird));
         Gdx.input.setInputProcessor(new InputHandler(game));
     }
 
@@ -101,7 +101,7 @@ public class GameScreen extends ScreenAdapter {
         //draw birds
         for(Bird b: birds){
             if(b != null){
-                game.batch.draw(game.bird, b.getX(), b.getY(), 200,200);
+                game.batch.draw(game.bird, b.getRenderX(), b.getRenderY(), 200,200);
             }
         }
         // draw ui
@@ -118,7 +118,7 @@ public class GameScreen extends ScreenAdapter {
         shapeRenderer.setColor(Color.RED);
         shapeRenderer.polygon(plane.getBoundingRect().getTransformedVertices());
         for(Bird bird : birds){
-            shapeRenderer.circle(bird.getBoundingCircle().x, 0-plane.y+bird.getBoundingCircle().y, bird.getBoundingCircle().radius);
+            shapeRenderer.circle(bird.getBoundingCircle().x, bird.getBoundingCircle().y, bird.getBoundingCircle().radius);
         }
         shapeRenderer.end();
     }
