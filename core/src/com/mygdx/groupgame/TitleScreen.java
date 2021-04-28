@@ -23,7 +23,7 @@ public class TitleScreen extends ScreenAdapter {
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 System.out.println("screen touched, switching screens");
                 System.out.println("x,y: " + screenX +  ", " + screenY);
-                game.setScreen(new GameScreen(game, 36000));
+                game.setScreen(new GameScreen(game, 360000));
                 return true;
             }
         });

@@ -4,8 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import entities.Bird;
 import entities.Plane;
@@ -21,8 +27,9 @@ public class GameScreen extends ScreenAdapter {
     private int gamePhase = 0;
     private float levelLength;
     private Plane plane;
+    private ShapeRenderer shapeRenderer;
 
-    public static final float OBSTACLE_SPAWN_TIME = 0.25f;  //obstacle spawn time
+    public static final float OBSTACLE_SPAWN_TIME = 9999999f;  //obstacle spawn time
     private Array<Bird> birds = new Array<Bird>(); // bird obstacle
     private float obstacleTimer;    // timer for obstacles
 
@@ -32,6 +39,8 @@ public class GameScreen extends ScreenAdapter {
         this.game = game;
         this.levelLength = levelLength;
         this.plane = game.airplane;
+        this.shapeRenderer = game.shapeRenderer;
+        birds.add(new Bird(Gdx.graphics.getWidth(), 200));
         Gdx.input.setInputProcessor(new InputHandler(game));
     }
 
@@ -69,20 +78,19 @@ public class GameScreen extends ScreenAdapter {
                     (int)game.runway.getX(), (int)game.runway.getY(), (int)game.runway.getWidth(), (int)game.runway.getHeight(), true, false);
             game.batch.draw(game.ground_loop.getTexture(), 0 - (plane.x - levelLength - game.runway.getWidth() - game.plane.getWidth() - 100), 0-plane.y+200);
         }
-/*
-        //draw obstacles
-            //draw bird
-        for (Bird obstacle : birds){
-            
-        }
 
-*/
         // draw plane
         game.batch.draw(game.plane, 100, 200, (int)(100+game.plane.getWidth()/2), (int)(200-game.plane.getHeight()/2 - 44),
                 game.plane.getWidth(), game.plane.getHeight(), 1, 1, plane.rot);
 
         //SpriteBatch.draw(textureRegion, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
 
+        //draw birds
+        for(Bird b: birds){
+            if(b != null){
+                game.batch.draw(game.bird, b.getX(), 0-plane.y + b.getY(), 200,200);
+            }
+        }
         // draw ui
 
         // draw debug values
@@ -92,6 +100,14 @@ public class GameScreen extends ScreenAdapter {
         game.font.draw(game.batch, "rotation: " + plane.rot + " " + "", game.w * 0.5f, game.h * 0.6f);
 
         game.batch.end();
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.polygon(plane.getBoundingRect().getTransformedVertices());
+        for(Bird bird : birds){
+            shapeRenderer.circle(bird.getBoundingCircle().x, bird.getBoundingCircle().y, bird.getBoundingCircle().radius);
+        }
+        shapeRenderer.end();
     }
 /*          // if draw in render(), no need for this block
     public void renderObs(float delta){
@@ -114,7 +130,6 @@ public class GameScreen extends ScreenAdapter {
     public void update(float delta){
         plane.update();
         updateObstacles(delta);
-
         // update gamestate flags
         // in-the-air
         if(plane.x > game.runway.getWidth()){
@@ -135,7 +150,7 @@ public class GameScreen extends ScreenAdapter {
     private void updateObstacles(float delta) {
 
         for(Bird obstacle: birds){
-            obstacle.update();
+            obstacle.update(delta);
         }
 
         createNewObstacle(delta);
@@ -144,21 +159,41 @@ public class GameScreen extends ScreenAdapter {
     private void createNewObstacle(float delta) {
 
         obstacleTimer += delta;      //delta
-
+        for(Bird obstacle : birds){
+            if(overlaps(plane.getBoundingRect(), obstacle.getBoundingCircle())){
+                game.setScreen(new EndScreen(game));
+            }
+        }
         if(obstacleTimer >= OBSTACLE_SPAWN_TIME){
 
-            float min = 0f;
-            float max = 12534f; //instead of the number it should be world width
-            float obstacleX = MathUtils.random(min,max);
-            float obstacleY = 152351f; // instead of number, it should be world height or swap X and Y
+//            float min = 0f;
+//            float max = 12534f; //instead of the number it should be world width
+//            float obstacleX = MathUtils.random(min,max);
+//            float obstacleY = 152351f; // instead of number, it should be world height or swap X and Y
 
-            Bird obstacle = new Bird();
-           obstacle.setPosition(obstacleX,obstacleY);
+            Bird obstacle = new Bird(200, 200);
 
-            birds.add (obstacle);
+            birds.add(obstacle);
             obstacleTimer = 0f;
         }
 
     }
+
+    public boolean overlaps(Polygon polygon, Circle circle) {
+        float []vertices=polygon.getTransformedVertices();
+        Vector2 center=new Vector2(circle.x, circle.y);
+        float squareRadius=circle.radius*circle.radius;
+        for (int i=0;i<vertices.length;i+=2){
+            if (i==0){
+                if (Intersector.intersectSegmentCircle(new Vector2(vertices[vertices.length-2], vertices[vertices.length-1]), new Vector2(vertices[i], vertices[i+1]), center, squareRadius))
+                    return true;
+            } else {
+                if (Intersector.intersectSegmentCircle(new Vector2(vertices[i-2], vertices[i-1]), new Vector2(vertices[i], vertices[i+1]), center, squareRadius))
+                    return true;
+            }
+        }
+        return false;
+    }
+
 
 }

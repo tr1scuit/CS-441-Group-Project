@@ -1,6 +1,8 @@
 package entities;
 
 
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.groupgame.GroupGame;
 
 public class Plane {
@@ -10,12 +12,18 @@ public class Plane {
     public float lift = 0;
     public float gravity = -2;
     public float rot = 0;
+    private Polygon boundingRect;
 
     private GroupGame game;
     public Plane(GroupGame game){
         this.game = game;
+        boundingRect = new Polygon(new float[]{100,200, 100+game.plane.getWidth(),200, 100+game.plane.getWidth(),200+game.plane.getHeight(), 100,200+game.plane.getHeight()});
+        boundingRect.setOrigin(game.plane.getWidth()/2, game.plane.getHeight()/2);
     }
 
+    public Polygon getBoundingRect(){
+        return boundingRect;
+    }
     public void update(){
         // Horizontal Movement
 
@@ -39,7 +47,8 @@ public class Plane {
         }
 
         // only apply lift if a certain speed
-        if(xVel > 60 && rot > 0){
+//        if(xVel > 60 && rot > 0){
+        if(rot > 0){
             yAcc = rot / 90;
         }
         if(rot < 0){
@@ -95,6 +104,6 @@ public class Plane {
         if(y < 200) { y = 200; yVel = 0; }
 
         // debug line
-        System.out.println("plane x, y:" + x + ", " + y);
+//        System.out.println("plane x, y:" + x + ", " + y);
     }
 }

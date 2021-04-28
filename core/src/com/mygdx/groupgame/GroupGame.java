@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import java.awt.Shape;
+
 import entities.Plane;
 
 public class GroupGame extends Game {
@@ -38,7 +40,7 @@ public class GroupGame extends Game {
 	public Sprite ground_loop;
 	//Sprite sky_loop;
 	//Sprite cloud;
-	//Sprite bird;
+	public Sprite bird;
 
 	@Override
 	public void create () {
@@ -47,6 +49,7 @@ public class GroupGame extends Game {
 		prefs = Gdx.app.getPreferences("GamePrefs");
 
 		batch = new SpriteBatch();
+		shapeRenderer = new ShapeRenderer();
 		font = new BitmapFont(Gdx.files.internal("Roboto-100.fnt"));
 		font.setColor(Color.WHITE);
 		finger = new TouchInfo();
@@ -55,6 +58,7 @@ public class GroupGame extends Game {
 		plane = new Sprite(new Texture("airplane.png"));
 		ground_loop = new Sprite(new Texture("grass_loop_f.png"));
 		airplane = new Plane(this);
+		bird = new Sprite(new Texture("bird.png"));
 		setScreen(new TitleScreen(this));
 	}
 
