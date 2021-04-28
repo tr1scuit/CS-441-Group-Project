@@ -1,6 +1,7 @@
 package entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
 
 public class Bird {
@@ -8,6 +9,8 @@ public class Bird {
     private static final float BOUND_RADIUS = 100f;
     private static final float SIZE = 2*BOUND_RADIUS;
 
+
+    private static Sprite birdSprite;
     private float x,y;
 
     private float xSpeed = 100f;
@@ -18,10 +21,11 @@ public class Bird {
         return bounds;
     }
 
-    public Bird(float x, float y){
+    public Bird(float x, float y, Sprite birdSprite){
         bounds = new Circle(x,y, BOUND_RADIUS);
         this.x = x;
         this.y = y;
+        this.birdSprite = birdSprite;
     }
 
     public void setPosition(float x, float y){
@@ -35,9 +39,14 @@ public class Bird {
         Gdx.app.log("Bird","Bird X/Y\t" + x + "\t" + y);
     }
 
-    public float getX(){return x;}
+    // returns the render value of bird (with offsets)
+    public float getX(){
+        return (this.getBoundingCircle().x - this.birdSprite.getWidth()/2);
+    }
 
-    public float getY(){return y;}
+    public float getY(){
+        return (this.getBoundingCircle().y - this.birdSprite.getHeight()/2);
+    }
 
     private void updateBounds(){
         bounds.setPosition(x,y);

@@ -40,12 +40,25 @@ public class GameScreen extends ScreenAdapter {
         this.levelLength = levelLength;
         this.plane = game.airplane;
         this.shapeRenderer = game.shapeRenderer;
-        birds.add(new Bird(Gdx.graphics.getWidth(), 200));
+        birds.add(new Bird(Gdx.graphics.getWidth(), 200, game.bird));
         Gdx.input.setInputProcessor(new InputHandler(game));
     }
 
     @Override
     public void show(){
+        // reset all gamestate variables
+        // plane position
+        // bird status
+        // management trackers
+        plane.x = 0;
+        plane.y = 200;
+        plane.xVel = 0;
+        plane.yVel = 0;
+        plane.xAcc = 0;
+        plane.yAcc = 0;
+        plane.lift = 0;
+        plane.gravity = -1;
+        plane.rot = 0;
     }
 
     @Override
@@ -88,7 +101,7 @@ public class GameScreen extends ScreenAdapter {
         //draw birds
         for(Bird b: birds){
             if(b != null){
-                game.batch.draw(game.bird, b.getX(), 0-plane.y + b.getY(), 200,200);
+                game.batch.draw(game.bird, b.getX(), b.getY(), 200,200);
             }
         }
         // draw ui
@@ -171,7 +184,7 @@ public class GameScreen extends ScreenAdapter {
 //            float obstacleX = MathUtils.random(min,max);
 //            float obstacleY = 152351f; // instead of number, it should be world height or swap X and Y
 
-            Bird obstacle = new Bird(200, 200);
+            Bird obstacle = new Bird(200, 200, game.bird);
 
             birds.add(obstacle);
             obstacleTimer = 0f;
