@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import entities.Bird;
 import entities.Plane;
+import entities.Wind;
 import helpers.InputHandler;
 
 
@@ -32,6 +33,9 @@ public class GameScreen extends ScreenAdapter {
     public static final float OBSTACLE_SPAWN_TIME = 9999999f;  //obstacle spawn time
     private Array<Bird> birds = new Array<Bird>(); // bird obstacle
     private float obstacleTimer;    // timer for obstacles
+
+    private Array<Wind> winds = new Array<>(); // wind obstacle
+
 
 
 
@@ -104,6 +108,14 @@ public class GameScreen extends ScreenAdapter {
                 game.batch.draw(game.bird, b.getRenderX(), b.getRenderY(), 200,200);
             }
         }
+
+        //draw wind
+
+        for (Wind w: winds){
+            if(w != null){
+                game.batch.draw(game.bird, w.getRenderX(), w.getRenderY(), 200,300);
+            }
+        }
         // draw ui
 
         // draw debug values
@@ -122,24 +134,7 @@ public class GameScreen extends ScreenAdapter {
         }
         shapeRenderer.end();
     }
-/*          // if draw in render(), no need for this block
-    public void renderObs(float delta){
 
-        update(delta);
-
-        //clear screen
-        // GdxUtils.clearScreen();
-
-        renderDebugObs();
-
-    }
-
-    public void renderDebugObs(){
-
-        renderer.setProjectMatrix
-
-    }
-*/
     public void update(float delta){
         plane.update();
         updateObstacles(delta);
