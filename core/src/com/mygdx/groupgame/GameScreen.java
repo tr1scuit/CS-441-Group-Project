@@ -19,7 +19,6 @@ import java.text.NumberFormat;
 
 import entities.Bird;
 import entities.Plane;
-import entities.Wind;
 import helpers.InputHandler;
 
 
@@ -35,12 +34,9 @@ public class GameScreen extends ScreenAdapter {
     private ShapeRenderer shapeRenderer;
     private NumberFormat formatter = new DecimalFormat("#0.00");
 
-    public static final float OBSTACLE_SPAWN_TIME = 9999999f;  //obstacle spawn time
+    public static final float OBSTACLE_SPAWN_TIME = 5f;  //obstacle spawn time
     private Array<Bird> birds = new Array<Bird>(); // bird obstacle
     private float obstacleTimer;    // timer for obstacles
-
-    private Array<Wind> winds = new Array<>(); // wind obstacle
-
 
 
 
@@ -49,7 +45,7 @@ public class GameScreen extends ScreenAdapter {
         this.levelLength = levelLength;
         this.plane = game.airplane;
         this.shapeRenderer = game.shapeRenderer;
-        birds.add(new Bird(Gdx.graphics.getWidth(), 1000, game.bird));
+//        birds.add(new Bird(Gdx.graphics.getWidth(), 1000, game.bird, plane));
         Gdx.input.setInputProcessor(new InputHandler(game));
     }
 
@@ -122,14 +118,6 @@ public class GameScreen extends ScreenAdapter {
                 game.batch.draw(game.bird, b.getRenderX(), b.getRenderY(), 200,200);
             }
         }
-
-        //draw wind
-
-        for (Wind w: winds){
-            if(w != null){
-                game.batch.draw(game.bird, w.getRenderX(), w.getRenderY(), 200,300);
-            }
-        }
         // draw ui
         game.font.draw(game.batch, "Time: " + parseTime(game.time), game.w*0.1f, game.h*0.1f);
         game.batch.draw(game.miniPlane, game.w*(float)(plane.x / (levelLength+game.runway.getWidth()*3)), game.h*0.86f);
@@ -153,7 +141,24 @@ public class GameScreen extends ScreenAdapter {
         }
         shapeRenderer.end();
     }
+/*          // if draw in render(), no need for this block
+    public void renderObs(float delta){
 
+        update(delta);
+
+        //clear screen
+        // GdxUtils.clearScreen();
+
+        renderDebugObs();
+
+    }
+
+    public void renderDebugObs(){
+
+        renderer.setProjectMatrix
+
+    }
+*/
     public void update(float delta){
         game.time += 0.01666666;
         plane.update();
@@ -180,9 +185,6 @@ public class GameScreen extends ScreenAdapter {
         for(Bird obstacle: birds){
             obstacle.update(delta);
         }
-        for(Wind obstacle: winds){
-            obstacle.update(delta);
-        }
 
         createNewObstacle(delta);
     }
@@ -195,24 +197,16 @@ public class GameScreen extends ScreenAdapter {
                 game.setScreen(new EndScreen(game));
             }
         }
-
-        for(Wind obstacle: winds){
-            if(overlaps(plane.getBoundingRect(), obstacle.getBoundingCircle())){
-                game.setScreen(new EndScreen(game));
-            }
-        }
-        if(obstacleTimer >= OBSTACLE_SPAWN_TIME){
+        if(obstacleTimer >= OBSTACLE_SPAWN_TIME && gamePhase == 1){
 
 //            float min = 0f;
 //            float max = 12534f; //instead of the number it should be world width
 //            float obstacleX = MathUtils.random(min,max);
 //            float obstacleY = 152351f; // instead of number, it should be world height or swap X and Y
 
-            Bird obstacle = new Bird(200, 200, game.bird);
-            //Wind obstacle = new Wind(200,200, game.winds);
+            birds.add(new Bird(Gdx.graphics.getWidth(), (float) (plane.y + Math.random() * (Gdx.graphics.getHeight())), game.bird, plane));
 
-            //winds.add(obstacle);
-            birds.add(obstacle);
+
             obstacleTimer = 0f;
         }
 

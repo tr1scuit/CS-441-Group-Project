@@ -3,6 +3,9 @@ package entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
+import com.mygdx.groupgame.GroupGame;
+
+import java.security.acl.Group;
 
 public class Bird {
 
@@ -10,21 +13,24 @@ public class Bird {
     private static final float SIZE = 2*BOUND_RADIUS;
 
     private static Sprite birdSprite;
-    private float x,y;
+    private float x,y,staticY;
 
     private float xSpeed = 100f;
 
     private Circle bounds;
+    private Plane plane;
 
     public Circle getBoundingCircle(){
         return bounds;
     }
 
-    public Bird(float x, float y, Sprite birdSprite){
+
+    public Bird(float x, float y, Sprite birdSprite, Plane plane){
         bounds = new Circle(x,y, BOUND_RADIUS);
         this.x = x;
-        this.y = y;
+        this.staticY = y;
         this.birdSprite = birdSprite;
+        this.plane = plane;
     }
 
     public void setPosition(float x, float y){
@@ -34,7 +40,7 @@ public class Bird {
     }
 
     public void update(float delta){
-        setPosition((x - xSpeed * delta),y);
+        setPosition((x - xSpeed * delta),0-plane.y+staticY);
         Gdx.app.log("Bird","Bird X/Y\t" + x + "\t" + y);
     }
 
