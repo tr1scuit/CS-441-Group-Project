@@ -33,10 +33,10 @@ public class EndScreen extends ScreenAdapter {
 
         game.batch.begin();
         game.font.setColor(1, 1, 1, 1);
-        game.batch.draw(game.menu2, 0, game.h);
+        game.batch.draw(game.menu2, 0, 0);
        // game.font.draw(game.batch, "Bingaming End screen", game.w * .33f, game.h * 0.89f);
         //game.font.draw(game.batch, "", game.w * .33f, game.h * 0.79f);
-       // game.batch.end();
+        game.batch.end();
     }
 
     @Override

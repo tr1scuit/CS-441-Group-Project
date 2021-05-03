@@ -36,7 +36,7 @@ public class TitleScreen extends ScreenAdapter {
 
         game.batch.begin();
         game.font.setColor(1, 1, 1, 1);
-        game.batch.draw(game.menu1, 0, game.h);
+        game.batch.draw(game.menu1, 0, 0);
 //        game.batch.draw(game.logo, game.w * 0.5f - game.logo.getWidth()/2, game.h * 0.42f - game.logo.getHeight()/2);
 //        game.font.draw(game.batch, "Bingaming Game WIP", game.w * .33f, game.h * 0.89f);
 //        game.font.draw(game.batch, "Tap screen for next", game.w * .33f, game.h * 0.79f);
