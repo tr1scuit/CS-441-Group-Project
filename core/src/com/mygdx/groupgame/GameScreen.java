@@ -180,6 +180,9 @@ public class GameScreen extends ScreenAdapter {
         for(Bird obstacle: birds){
             obstacle.update(delta);
         }
+        for(Wind obstacle: winds){
+            obstacle.update(delta);
+        }
 
         createNewObstacle(delta);
     }
@@ -192,6 +195,12 @@ public class GameScreen extends ScreenAdapter {
                 game.setScreen(new EndScreen(game));
             }
         }
+
+        for(Wind obstacle: winds){
+            if(overlaps(plane.getBoundingRect(), obstacle.getBoundingCircle())){
+                game.setScreen(new EndScreen(game));
+            }
+        }
         if(obstacleTimer >= OBSTACLE_SPAWN_TIME){
 
 //            float min = 0f;
@@ -200,7 +209,9 @@ public class GameScreen extends ScreenAdapter {
 //            float obstacleY = 152351f; // instead of number, it should be world height or swap X and Y
 
             Bird obstacle = new Bird(200, 200, game.bird);
+            //Wind obstacle = new Wind(200,200, game.winds);
 
+            //winds.add(obstacle);
             birds.add(obstacle);
             obstacleTimer = 0f;
         }
