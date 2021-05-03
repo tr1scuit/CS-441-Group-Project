@@ -21,9 +21,9 @@ public class Plane {
         this.width = game.plane.getWidth();
         this.height = game.plane.getHeight();
         boundingRect = new Polygon(new float[]{0,0, width,0, width,height, 0,height});
-        boundingRect.setPosition(100,200);
+        boundingRect.setPosition(100,this.y);
         // rotation point for bounding rectangle is lower (because of plane center of gravity)
-        boundingRect.setOrigin((int)(100+game.plane.getWidth()/2), (int)(200-game.plane.getHeight()/2 - 44));
+        boundingRect.setOrigin((int)(100+game.plane.getWidth()/2), (int)(this.y-(game.plane.getHeight()/2)*0.3f));
     }
 
     public Polygon getBoundingRect(){
@@ -108,6 +108,15 @@ public class Plane {
         if(x < 0){ x = 0;}
         if(y < 200) { y = 200; yVel = 0; }
 
+        // update bounding box
+        if(this.y < 450){
+            boundingRect.setPosition(100,this.y);
+            boundingRect.setOrigin((int)(100+game.plane.getWidth()/2), (int)(game.plane.getHeight())-44);
+        }
+        if(this.y >= 450){
+            boundingRect.setPosition(100,450);
+            boundingRect.setOrigin((int)(100+game.plane.getWidth()/2), (int)(game.plane.getHeight())-44);
+        }
         boundingRect.setRotation(rot);
         // debug line
 //        System.out.println("plane x, y:" + x + ", " + y);

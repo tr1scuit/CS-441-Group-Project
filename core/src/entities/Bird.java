@@ -9,7 +9,6 @@ public class Bird {
     private static final float BOUND_RADIUS = 100f;
     private static final float SIZE = 2*BOUND_RADIUS;
 
-
     private static Sprite birdSprite;
     private float x,y;
 
