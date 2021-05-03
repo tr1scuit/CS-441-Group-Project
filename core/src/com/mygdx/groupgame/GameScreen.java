@@ -34,7 +34,7 @@ public class GameScreen extends ScreenAdapter {
     private ShapeRenderer shapeRenderer;
     private NumberFormat formatter = new DecimalFormat("#0.00");
 
-    public static final float OBSTACLE_SPAWN_TIME = 9999999f;  //obstacle spawn time
+    public static final float OBSTACLE_SPAWN_TIME = 5f;  //obstacle spawn time
     private Array<Bird> birds = new Array<Bird>(); // bird obstacle
     private float obstacleTimer;    // timer for obstacles
 
@@ -45,7 +45,7 @@ public class GameScreen extends ScreenAdapter {
         this.levelLength = levelLength;
         this.plane = game.airplane;
         this.shapeRenderer = game.shapeRenderer;
-        birds.add(new Bird(Gdx.graphics.getWidth(), 1000, game.bird));
+//        birds.add(new Bird(Gdx.graphics.getWidth(), 1000, game.bird, plane));
         Gdx.input.setInputProcessor(new InputHandler(game));
     }
 
@@ -197,16 +197,16 @@ public class GameScreen extends ScreenAdapter {
                 game.setScreen(new EndScreen(game));
             }
         }
-        if(obstacleTimer >= OBSTACLE_SPAWN_TIME){
+        if(obstacleTimer >= OBSTACLE_SPAWN_TIME && gamePhase == 1){
 
 //            float min = 0f;
 //            float max = 12534f; //instead of the number it should be world width
 //            float obstacleX = MathUtils.random(min,max);
 //            float obstacleY = 152351f; // instead of number, it should be world height or swap X and Y
 
-            Bird obstacle = new Bird(200, 200, game.bird);
+            birds.add(new Bird(Gdx.graphics.getWidth(), (float) (plane.y + Math.random() * (Gdx.graphics.getHeight())), game.bird, plane));
 
-            birds.add(obstacle);
+
             obstacleTimer = 0f;
         }
 
