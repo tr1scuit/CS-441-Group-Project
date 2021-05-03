@@ -33,7 +33,7 @@ public class GameScreen extends ScreenAdapter {
     private Plane plane;
     private ShapeRenderer shapeRenderer;
     private NumberFormat formatter = new DecimalFormat("#0.00");
-
+    private float runtime = 0f;
     public static final float OBSTACLE_SPAWN_TIME = 5f;  //obstacle spawn time
     private Array<Bird> birds = new Array<Bird>(); // bird obstacle
     private float obstacleTimer;    // timer for obstacles
@@ -71,7 +71,7 @@ public class GameScreen extends ScreenAdapter {
     public void render(float delta) {
 
         update(delta);
-
+        runtime += delta;
         Gdx.gl.glClearColor(88/255f, 88/255f, 128/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.font.setColor(1, 1, 1, 1);
@@ -115,7 +115,7 @@ public class GameScreen extends ScreenAdapter {
         //draw birds
         for(Bird b: birds){
             if(b != null){
-                game.batch.draw(game.bird, b.getRenderX(), b.getRenderY(), 200,200);
+                game.batch.draw(game.birdAnimation.getKeyFrame(runtime), b.getRenderX(), b.getRenderY(), 200,200);
             }
         }
         // draw ui

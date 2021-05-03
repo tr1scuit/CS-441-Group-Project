@@ -15,7 +15,7 @@ public class Bird {
     private static Sprite birdSprite;
     private float x,y,staticY;
 
-    private float xSpeed = 100f;
+    private float xSpeed = 5f;
 
     private Circle bounds;
     private Plane plane;
@@ -40,7 +40,11 @@ public class Bird {
     }
 
     public void update(float delta){
-        setPosition((x - xSpeed * delta),0-plane.y+staticY);
+        if(plane.xVel == 0){
+            setPosition((x + (xSpeed * delta)),0-plane.y+staticY);
+        }
+        else
+            setPosition((x + (xSpeed * delta) - (plane.xVel * 5 * delta)),0-plane.y+staticY);
         Gdx.app.log("Bird","Bird X/Y\t" + x + "\t" + y);
     }
 
