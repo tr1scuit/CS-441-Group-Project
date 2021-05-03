@@ -12,11 +12,16 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 import java.awt.Shape;
 
 import entities.Plane;
 
 public class GroupGame extends Game {
+
+	//initialize assets
 
 	public Preferences prefs;
 
@@ -25,6 +30,7 @@ public class GroupGame extends Game {
 	public BitmapFont font;
 	public int w, h;
 	public Plane airplane;
+	public float time;
 
 	public class TouchInfo{
 		public float touchX = 0;
@@ -35,11 +41,13 @@ public class GroupGame extends Game {
 	public TouchInfo finger;
 
 	public Texture logo;
+	public Texture menu1;
+	public Texture menu2;
 	public Sprite runway;
 	public Sprite plane;
 	public Sprite ground_loop;
-	//Sprite sky_loop;
-	//Sprite cloud;
+	public Sprite miniPlane;
+	public Sprite altMark;
 	public Sprite bird;
 
 	@Override
@@ -54,11 +62,15 @@ public class GroupGame extends Game {
 		font.setColor(Color.WHITE);
 		finger = new TouchInfo();
 		logo = new Texture("Bingaming500.png");
+		menu1 = new Texture("MenuScreen1.png");
+		menu2 = new Texture("MenuScreen2.png");
 		runway = new Sprite(new Texture("runway_f.png"));
 		plane = new Sprite(new Texture("airplane.png"));
 		ground_loop = new Sprite(new Texture("grass_loop_f.png"));
 		airplane = new Plane(this);
 		bird = new Sprite(new Texture("bird.png"));
+		miniPlane = new Sprite(new Texture("MiniPlane.png"));
+		altMark = new Sprite(new Texture("altitudeMarker.png"));
 		setScreen(new TitleScreen(this));
 	}
 

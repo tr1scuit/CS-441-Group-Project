@@ -13,6 +13,10 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import entities.Bird;
 import entities.Plane;
 import entities.Wind;
@@ -29,6 +33,7 @@ public class GameScreen extends ScreenAdapter {
     private float levelLength;
     private Plane plane;
     private ShapeRenderer shapeRenderer;
+    private NumberFormat formatter = new DecimalFormat("#0.00");
 
     public static final float OBSTACLE_SPAWN_TIME = 9999999f;  //obstacle spawn time
     private Array<Bird> birds = new Array<Bird>(); // bird obstacle
@@ -63,6 +68,7 @@ public class GameScreen extends ScreenAdapter {
         plane.lift = 0;
         plane.gravity = -1;
         plane.rot = 0;
+        game.time = 0;
     }
 
     @Override
@@ -72,24 +78,25 @@ public class GameScreen extends ScreenAdapter {
 
         Gdx.gl.glClearColor(88/255f, 88/255f, 128/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        game.batch.begin();
         game.font.setColor(1, 1, 1, 1);
         game.font.getData().setScale(1.0f, 1.0f);
-        game.font.draw(game.batch, "Plane Sim WIP1", game.w * .1f, game.h * 0.89f);
-        game.font.draw(game.batch, "Tap left corners for accel, tap right corners for rotation", game.w * .1f, game.h * 0.79f);
+
+        game.batch.begin();
 
         //draw world
+        // Runway Start
         if(gamePhase == 0){
             //game.runway.flip(1, 1);
             game.batch.draw(game.runway.getTexture(), 0 - plane.x, 0 - plane.y + 200, game.runway.getWidth(), game.runway.getHeight(),
                     (int)game.runway.getX(), (int)game.runway.getY(), (int)game.runway.getWidth(), (int)game.runway.getHeight(), false, false);
             game.batch.draw(game.ground_loop.getTexture(), 0 - plane.x + game.runway.getWidth(), 0 - plane.y + 200);
         }
+        // In the air
         if(gamePhase == 1){
             game.batch.draw(game.ground_loop.getTexture(), (0 - plane.x + game.runway.getWidth()) % 3000, 0-plane.y+200);
             game.batch.draw(game.ground_loop.getTexture(), (0 - plane.x + game.runway.getWidth()) % 3000 + game.ground_loop.getWidth(), 0-plane.y+200);
         }
+        // Runway End
         if(gamePhase == 2){
             game.batch.draw(game.runway.getTexture(), 0 - (plane.x - levelLength - game.runway.getWidth() - game.plane.getWidth() - 100), 0-plane.y+200, game.runway.getWidth(), game.runway.getHeight(),
                     (int)game.runway.getX(), (int)game.runway.getY(), (int)game.runway.getWidth(), (int)game.runway.getHeight(), true, false);
@@ -97,8 +104,15 @@ public class GameScreen extends ScreenAdapter {
         }
 
         // draw plane
-        game.batch.draw(game.plane, 100, 200, (int)(100+game.plane.getWidth()/2), (int)(200-game.plane.getHeight()/2 - 44),
-                game.plane.getWidth(), game.plane.getHeight(), 1, 1, plane.rot);
+        if(plane.y < 450){
+            game.batch.draw(game.plane, 100, plane.y, (int)(100+game.plane.getWidth()/2), (int)(game.plane.getHeight()-44),
+                    game.plane.getWidth(), game.plane.getHeight(), 1, 1, plane.rot);
+        }
+        if(plane.y >= 450){
+            game.batch.draw(game.plane, 100, 450, (int)(100+game.plane.getWidth()/2), (int)(game.plane.getHeight()-44),
+                    game.plane.getWidth(), game.plane.getHeight(), 1, 1, plane.rot);
+        }
+
 
         //SpriteBatch.draw(textureRegion, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
 
@@ -117,8 +131,13 @@ public class GameScreen extends ScreenAdapter {
             }
         }
         // draw ui
+        game.font.draw(game.batch, "Time: " + parseTime(game.time), game.w*0.1f, game.h*0.1f);
+        game.batch.draw(game.miniPlane, game.w*(float)(plane.x / (levelLength+game.runway.getWidth()*3)), game.h*0.86f);
+        game.batch.draw(game.altMark, (float)(5), game.h*(float)((plane.y)/4000));
 
         // draw debug values
+        //game.font.draw(game.batch, "Plane Sim WIP1", game.w * .1f, game.h * 0.89f);
+        //game.font.draw(game.batch, "Tap left corners for accel, tap right corners for rotation", game.w * .1f, game.h * 0.79f);
         game.font.getData().setScale(0.7f, 0.7f);
         game.font.draw(game.batch, "vel x,y: " + plane.xVel + " " + plane.yVel, game.w * .05f, game.h * 0.7f);
         game.font.draw(game.batch, "acc x,y: " + plane.xAcc + " " + plane.yAcc, game.w * .05f, game.h * 0.65f);
@@ -136,6 +155,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void update(float delta){
+        game.time += 0.01666666;
         plane.update();
         updateObstacles(delta);
         // update gamestate flags
@@ -203,5 +223,8 @@ public class GameScreen extends ScreenAdapter {
         return false;
     }
 
+    public String parseTime(float timing){
+        return formatter.format(timing);
+    }
 
 }
