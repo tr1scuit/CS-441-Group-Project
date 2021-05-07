@@ -1,68 +1,68 @@
 bird.png
-size: 960, 1350
+size: 1800, 1800
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-bird1
+bird
   rotate: false
   xy: 0, 0
-  size: 480, 270
-  orig: 480, 270
+  size: 600, 600
+  orig: 600, 600
   offset: 0, 0
-  index: -1
-bird2
+  index: 1
+bird
   rotate: false
-  xy: 480, 0
-  size: 480, 270
-  orig: 480, 270
+  xy: 600, 0
+  size: 600, 600
+  orig: 600, 600
   offset: 0, 0
-  index: -1
-bird3
+  index: 2
+bird
   rotate: false
-  xy: 0, 270
-  size: 480, 270
-  orig: 480, 270
+  xy: 1200, 0
+  size: 600, 600
+  orig: 600, 600
   offset: 0, 0
-  index: -1
-bird4
+  index: 3
+bird
   rotate: false
-  xy: 480, 270
-  size: 480, 270
-  orig: 480, 270
+  xy: 0, 600
+  size: 600, 600
+  orig: 600, 600
   offset: 0, 0
-  index: -1
-bird5
+  index: 4
+bird
   rotate: false
-  xy: 0, 540
-  size: 480, 270
-  orig: 480, 270
+  xy: 600, 600
+  size: 600, 600
+  orig: 600, 600
   offset: 0, 0
-  index: -1
-bird6
+  index: 5
+bird
   rotate: false
-  xy: 480, 540
-  size: 480, 270
-  orig: 480, 270
+  xy: 1200, 600
+  size: 600, 600
+  orig: 600, 600
   offset: 0, 0
-  index: -1
-bird7
+  index: 6
+bird
   rotate: false
-  xy: 0, 810
-  size: 480, 270
-  orig: 480, 270
+  xy: 0, 1200
+  size: 600, 600
+  orig: 600, 600
   offset: 0, 0
-  index: -1
-bird8
+  index: 7
+bird
   rotate: false
-  xy: 480, 810
-  size: 480, 270
-  orig: 480, 270
+  xy: 600, 1200
+  size: 600, 600
+  orig: 600, 600
   offset: 0, 0
-  index: -1
-bird9
+  index: 8
+bird
   rotate: false
-  xy: 0, 1080
-  size: 480, 270
-  orig: 480, 270
+  xy: 1200, 1200
+  size: 600, 600
+  orig: 600, 600
   offset: 0, 0
-  index: -1
+  index: 9
