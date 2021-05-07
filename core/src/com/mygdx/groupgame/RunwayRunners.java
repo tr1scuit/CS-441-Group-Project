@@ -46,6 +46,9 @@ public class RunwayRunners extends Game {
 	public Texture logo;
 	public Texture menu1;
 	public Texture menu2;
+	public Texture menuHelp1;
+	public Texture menuHelp2;
+	public Texture menuSetting;
 	public Sprite runway;
 	public Sprite plane;
 	public Sprite ground_loop;
@@ -89,12 +92,16 @@ public class RunwayRunners extends Game {
 
 		// UI Sprites
 		font = new BitmapFont(Gdx.files.internal("Roboto-100.fnt"));
+		font.getData().setScale(1.0f, 1.0f);
 		font.setColor(Color.WHITE);
 		smallFont = new BitmapFont(Gdx.files.internal("Roboto-80.fnt"));
 		smallFont.setColor(Color.WHITE);
 		logo = new Texture("Bingaming500.png");
 		menu1 = new Texture("MenuScreen1.png");
 		menu2 = new Texture("MenuScreen2.png");
+		menuHelp1= new Texture("Screen_Help2.png");
+		menuHelp2 = new Texture("Screen_Help1.png");
+		menuSetting = new Texture("Screen_Settings.png");
 
 		miniPlane = new Sprite(new Texture("MiniPlane.png"));
 		altMark = new Sprite(new Texture("altitudeMarker.png"));

@@ -89,7 +89,12 @@ public class Button {
             press();
             return true;
         }
-        else{
+        else if(!touchStatus &&
+                touchX > x && touchX < x+width &&
+                touchY > y && touchY < y+height) {
+            unPress();
+            return true;
+        }else{
             unPress();
             return false;
         }

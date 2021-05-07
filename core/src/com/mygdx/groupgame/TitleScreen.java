@@ -28,7 +28,6 @@ public class TitleScreen extends ScreenAdapter {
         help = new Button(game.w * 0.75f, game.h * 0.22f, 400, 100,"Help");
         settings = new Button(game.w * 0.75f, game.h * 0.09f, 400, 100,"Settings");
 
-
         Gdx.input.setInputProcessor(new InputHandler(game));
     }
 
@@ -39,6 +38,7 @@ public class TitleScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
+        game.font.getData().setScale(1.0f, 1.0f);
         game.font.setColor(0, 0, 0, 1);
         game.batch.draw(game.menu1, 0, 0);
         renderUI();
@@ -60,10 +60,23 @@ public class TitleScreen extends ScreenAdapter {
     }
 
     public void updateUI(){
+
         start.check(game.finger.touchX, game.finger.touchY, game.finger.touched);
+        if(!game.finger.touched && start.check(game.finger.touchX, game.finger.touchY, false)){
+            game.setScreen(new GameScreen(game, 90000));
+        }
+
         help.check(game.finger.touchX, game.finger.touchY, game.finger.touched);
+        if(!game.finger.touched && help.check(game.finger.touchX, game.finger.touchY, false)){
+            game.setScreen(new HelpScreen(game));
+        }
+
         settings.check(game.finger.touchX, game.finger.touchY, game.finger.touched);
+        if(!game.finger.touched && settings.check(game.finger.touchX, game.finger.touchY, false)){
+            game.setScreen(new GameScreen(game, 20000));
+        }
     }
+
 
 /*
     @Override
