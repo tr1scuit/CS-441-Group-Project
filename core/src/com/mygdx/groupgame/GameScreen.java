@@ -1,15 +1,12 @@
 package com.mygdx.groupgame;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -24,7 +21,7 @@ import helpers.InputHandler;
 
 public class GameScreen extends ScreenAdapter {
 
-    GroupGame game;
+    RunwayRunners game;
 
     // variables for local gamestate
     // gamePhase = 0 for takeoff, 1 for inflight, 2 for landing
@@ -40,7 +37,7 @@ public class GameScreen extends ScreenAdapter {
 
 
 
-    public GameScreen(GroupGame game, float levelLength){
+    public GameScreen(RunwayRunners game, float levelLength){
         this.game = game;
         this.levelLength = levelLength;
         this.plane = game.airplane;
@@ -65,6 +62,7 @@ public class GameScreen extends ScreenAdapter {
         plane.gravity = -1;
         plane.rot = 0;
         game.time = 0;
+        birds.clear();
     }
 
     @Override

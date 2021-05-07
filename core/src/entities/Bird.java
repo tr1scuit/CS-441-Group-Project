@@ -3,9 +3,6 @@ package entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
-import com.mygdx.groupgame.GroupGame;
-
-import java.security.acl.Group;
 
 public class Bird {
 
@@ -15,7 +12,7 @@ public class Bird {
     private static Sprite birdSprite;
     private float x,y,staticY;
 
-    private float xSpeed = 5f;
+    private float xSpeed = 30f;
 
     private Circle bounds;
     private Plane plane;
