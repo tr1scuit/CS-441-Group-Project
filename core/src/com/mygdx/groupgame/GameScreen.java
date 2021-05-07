@@ -16,6 +16,7 @@ import java.text.NumberFormat;
 
 import entities.Bird;
 import entities.Plane;
+import entities.Wind;
 import helpers.InputHandler;
 
 
@@ -34,6 +35,8 @@ public class GameScreen extends ScreenAdapter {
     public static final float OBSTACLE_SPAWN_TIME = 5f;  //obstacle spawn time
     private Array<Bird> birds = new Array<Bird>(); // bird obstacle
     private float obstacleTimer;    // timer for obstacles
+
+    private Array<Wind> winds = new Array<>();
 
 
 
@@ -114,6 +117,12 @@ public class GameScreen extends ScreenAdapter {
         for(Bird b: birds){
             if(b != null){
                 game.batch.draw(game.birdAnimation.getKeyFrame(runtime), b.getRenderX(), b.getRenderY(), 200,200);
+            }
+        }
+        //draw wind
+        for(Wind w : winds){
+            if(w != null){
+                game.batch.draw(game.wind, 20,wind.y)
             }
         }
 
