@@ -118,6 +118,8 @@ public class GameScreen extends ScreenAdapter {
                 game.batch.draw(game.bird, b.getRenderX(), b.getRenderY(), 200,200);
             }
         }
+
+        
         // draw ui
         game.font.draw(game.batch, "Time: " + parseTime(game.time), game.w*0.1f, game.h*0.1f);
         game.batch.draw(game.miniPlane, game.w*(float)(plane.x / (levelLength+game.runway.getWidth()*3)), game.h*0.86f);
@@ -141,24 +143,7 @@ public class GameScreen extends ScreenAdapter {
         }
         shapeRenderer.end();
     }
-/*          // if draw in render(), no need for this block
-    public void renderObs(float delta){
 
-        update(delta);
-
-        //clear screen
-        // GdxUtils.clearScreen();
-
-        renderDebugObs();
-
-    }
-
-    public void renderDebugObs(){
-
-        renderer.setProjectMatrix
-
-    }
-*/
     public void update(float delta){
         game.time += 0.01666666;
         plane.update();
