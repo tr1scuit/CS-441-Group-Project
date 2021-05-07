@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Polygon;
-import com.mygdx.groupgame.GroupGame;
+
 
 import java.security.acl.Group;
 
@@ -27,7 +27,7 @@ public class Wind {
 
 
     public Wind(float x, float y, Sprite windSprite, Plane plane){
-        boundWind = new Polygon(x,y);
+        boundWind = new Polygon();
         this.x = x;
         this.staticY = y;
         this.windSprite = windSprite;
@@ -55,10 +55,10 @@ public class Wind {
 
     // return the render-offset x, y coordinates of the bird
     public float getRenderX(){
-        return (this.getBoundWind().x - this.windSprite.getWidth()/2);
+        return (this.getBoundWind().getX() - this.windSprite.getWidth()/2);
     }
     public float getRenderY(){
-        return (this.getBoundWind().y - this.windSprite.getHeight()/2);
+        return (this.getBoundWind().getY() - this.windSprite.getHeight()/2);
     }
 
     private void updateBounds(){
