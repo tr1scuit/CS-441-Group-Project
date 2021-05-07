@@ -1,13 +1,12 @@
 package helpers;
 
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputProcessor;
-import com.mygdx.groupgame.GroupGame;
+import com.mygdx.groupgame.RunwayRunners;
 
 public class InputHandler extends InputAdapter {
-    private GroupGame game;
+    private RunwayRunners game;
 
-    public InputHandler(GroupGame game) {
+    public InputHandler(RunwayRunners game) {
         this.game = game;
     }
 

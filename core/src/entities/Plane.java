@@ -2,8 +2,7 @@ package entities;
 
 
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
-import com.mygdx.groupgame.GroupGame;
+import com.mygdx.groupgame.RunwayRunners;
 
 public class Plane {
     public float x = 0, y = 200;
@@ -15,12 +14,15 @@ public class Plane {
     private Polygon boundingRect;
     private float width, height;
 
-    private GroupGame game;
-    public Plane(GroupGame game){
+    private RunwayRunners game;
+    public Plane(RunwayRunners game){
         this.game = game;
         this.width = game.plane.getWidth();
         this.height = game.plane.getHeight();
-        boundingRect = new Polygon(new float[]{0,0, width,0, width,height, 0,height});
+        //new hitbox
+        boundingRect = new Polygon(new float[]{104,36, 27,159, 49,164, 115,96, 178,73, 548,72, 600,42, 544,18, 175,22});
+        //old hitbox
+        //boundingRect = new Polygon(new float[]{0,0, width,0, width,height, 0,height});
         boundingRect.setPosition(100,this.y);
         // rotation point for bounding rectangle is lower (because of plane center of gravity)
         boundingRect.setOrigin((int)(100+game.plane.getWidth()/2), (int)(this.y-(game.plane.getHeight()/2)*0.3f));
@@ -46,9 +48,15 @@ public class Plane {
         // Rotation
         if(game.finger.touched && game.finger.touchY > game.h/2 && game.finger.touchX > game.w / 2) {
             rot += 1;
+            if(rot > 75){
+                rot = 75;
+            }
         }
         if(game.finger.touched && game.finger.touchY < game.h/2 && game.finger.touchX > game.w / 2 ){
             rot -= 1;
+            if(rot < -75){
+                rot = -75;
+            }
         }
 
         // only apply lift if a certain speed

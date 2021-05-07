@@ -1,16 +1,15 @@
 package com.mygdx.groupgame;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 
 public class EndScreen extends ScreenAdapter {
 
-    GroupGame game;
+    RunwayRunners game;
 
-    public EndScreen(GroupGame game){
+    public EndScreen(RunwayRunners game){
         this.game = game;
     }
 
@@ -19,7 +18,7 @@ public class EndScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                System.out.println("x,y: " + screenX +  ", " + screenY);
+
                 game.setScreen(new TitleScreen(game));
                 return true;
             }
@@ -34,7 +33,7 @@ public class EndScreen extends ScreenAdapter {
         game.batch.begin();
         game.font.setColor(1, 1, 1, 1);
         game.batch.draw(game.menu2, 0, 0);
-       // game.font.draw(game.batch, "Bingaming End screen", game.w * .33f, game.h * 0.89f);
+        //game.font.draw(game.batch, "Bingaming End screen", game.w * .33f, game.h * 0.89f);
         //game.font.draw(game.batch, "", game.w * .33f, game.h * 0.79f);
         game.batch.end();
     }
