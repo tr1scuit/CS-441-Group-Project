@@ -9,10 +9,14 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+
 import com.badlogic.gdx.utils.Array;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import entities.Bird;
 import entities.Plane;
@@ -32,7 +36,7 @@ public class GameScreen extends ScreenAdapter {
     private NumberFormat formatter = new DecimalFormat("#0.00");
     private float runtime = 0f;
     public static final float OBSTACLE_SPAWN_TIME = 5f;  //obstacle spawn time
-    private Array<Bird> birds = new Array<Bird>(); // bird obstacle
+    private List<Bird> birds = new ArrayList<Bird>(); // bird obstacle
     private float obstacleTimer;    // timer for obstacles
 
 
@@ -190,11 +194,16 @@ public class GameScreen extends ScreenAdapter {
     private void createNewObstacle(float delta) {
 
         obstacleTimer += delta;      //delta
-        for(Bird obstacle : birds){
-            if(overlaps(plane.getBoundingRect(), obstacle.getBoundingCircle())){
-                game.setScreen(new EndScreen(game));
+
+        Iterator<Bird> itr = birds.iterator();
+        Bird obstacle = null;
+        while(itr.hasNext()){
+            obstacle = itr.next();
+            if((obstacle != null) && overlaps(plane.getBoundingRect(), obstacle.getBoundingCircle())){
+                birds.remove(obstacle);
             }
         }
+
         if(obstacleTimer >= OBSTACLE_SPAWN_TIME && gamePhase == 1){
 
 //            float min = 0f;
