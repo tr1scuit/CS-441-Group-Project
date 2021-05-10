@@ -79,15 +79,15 @@ public class RunwayRunners extends Game {
 		ground_loop = new Sprite(new Texture("grass_loop_f.png"));
 		airplane = new Plane(this);
 		atlas = new TextureAtlas(Gdx.files.internal("birdAnimation/bird.atlas"));
-		TextureRegion birdFrames[] = {atlas.findRegion("bird1"),
-				atlas.findRegion("bird2"),
-				atlas.findRegion("bird3"),
-				atlas.findRegion("bird4"),
-				atlas.findRegion("bird5"),
-				atlas.findRegion("bird6"),
-				atlas.findRegion("bird7"),
-				atlas.findRegion("bird8"),
-				atlas.findRegion("bird9"),
+		TextureRegion birdFrames[] = {atlas.findRegion("bird",1),
+				atlas.findRegion("bird",2),
+				atlas.findRegion("bird",3),
+				atlas.findRegion("bird",4),
+				atlas.findRegion("bird",5),
+				atlas.findRegion("bird",6),
+				atlas.findRegion("bird",7),
+				atlas.findRegion("bird",8),
+				atlas.findRegion("bird",9),
 		};
 		birdAnimation = new Animation((float) 0.1, birdFrames);
 		birdAnimation.setPlayMode(Animation.PlayMode.LOOP);

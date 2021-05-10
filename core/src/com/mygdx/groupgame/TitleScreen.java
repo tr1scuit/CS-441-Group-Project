@@ -23,6 +23,9 @@ public class TitleScreen extends ScreenAdapter {
 
     @Override
     public void show(){
+        game.finger.touched = false;
+        game.finger.touchX = 0;
+        game.finger.touchY = 0;
         // Initialize Menu Buttons
         start = new Button(game.w * 0.75f, game.h * 0.35f, 400, 100, "Start");
         help = new Button(game.w * 0.75f, game.h * 0.22f, 400, 100,"Help");
