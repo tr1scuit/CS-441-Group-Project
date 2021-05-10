@@ -5,9 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Polygon;
 
-
-import java.security.acl.Group;
-
 public class Wind {
 
     private static final float BOUND_RADIUS = 100f;
@@ -16,18 +13,18 @@ public class Wind {
     private static Sprite windSprite;
     private float x,y,staticY;
 
-    private float xSpeed = 100f;
+    private float xSpeed = 30f;
 
-    private Polygon boundWind;
+    private Circle boundWind;
     private Plane plane;
 
-    public Polygon getBoundWind(){
+    public Circle getBoundingCircle(){
         return boundWind;
     }
 
 
     public Wind(float x, float y, Sprite windSprite, Plane plane){
-        boundWind = new Polygon();
+        boundWind = new Circle(x,y,BOUND_RADIUS);
         this.x = x;
         this.staticY = y;
         this.windSprite = windSprite;
@@ -41,7 +38,11 @@ public class Wind {
     }
 
     public void update(float delta){
-        setPosition((x - xSpeed * delta),0-plane.y+staticY);
+        if(plane.xVel == 0){
+            setPosition((x + (xSpeed * delta)),0-plane.y+staticY);
+        }
+        else
+            setPosition((x + (xSpeed * delta) - (plane.xVel * 5 * delta)),0-plane.y+staticY);
         Gdx.app.log("Wind","Wind X/Y\t" + x + "\t" + y);
     }
 
@@ -55,10 +56,10 @@ public class Wind {
 
     // return the render-offset x, y coordinates of the bird
     public float getRenderX(){
-        return (this.getBoundWind().getX() - this.windSprite.getWidth()/2);
+        return (this.getBoundingCircle().x - this.windSprite.getWidth()/2);
     }
     public float getRenderY(){
-        return (this.getBoundWind().getY() - this.windSprite.getHeight()/2);
+        return (this.getBoundingCircle().y - this.windSprite.getHeight()/2);
     }
 
     private void updateBounds(){

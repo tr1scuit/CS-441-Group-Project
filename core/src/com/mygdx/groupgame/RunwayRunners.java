@@ -55,6 +55,7 @@ public class RunwayRunners extends Game {
 	public Sprite miniPlane;
 	public Sprite altMark;
 	public Sprite bird;
+	public Sprite wind;
 	public static TextureAtlas atlas;
 	public TextureRegion birdAtlas;
 	public Animation<TextureRegion> birdAnimation;
@@ -72,6 +73,7 @@ public class RunwayRunners extends Game {
 
 		// Game Sprites
 		bird = new Sprite(new Texture("bird.png"));
+		wind = new Sprite(new Texture("wind.png"));
 		runway = new Sprite(new Texture("runway_f.png"));
 		plane = new Sprite(new Texture("airplane.png"));
 		ground_loop = new Sprite(new Texture("grass_loop_f.png"));

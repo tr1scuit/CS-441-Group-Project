@@ -122,7 +122,7 @@ public class GameScreen extends ScreenAdapter {
         //draw wind
         for(Wind w : winds){
             if(w != null){
-                game.batch.draw(game.wind, 20,wind.y)
+                game.batch.draw(game.wind, 200, 200,w.getRenderX(),w.getRenderY());
             }
         }
 
@@ -177,8 +177,12 @@ public class GameScreen extends ScreenAdapter {
         for(Bird obstacle: birds){
             obstacle.update(delta);
         }
+        for(Wind obstacleWind: winds){
+            obstacleWind.update(delta);
+        }
 
         createNewObstacle(delta);
+
     }
 
     private void createNewObstacle(float delta) {
@@ -186,6 +190,12 @@ public class GameScreen extends ScreenAdapter {
         obstacleTimer += delta;      //delta
         for(Bird obstacle : birds){
             if(overlaps(plane.getBoundingRect(), obstacle.getBoundingCircle())){
+                game.setScreen(new EndScreen(game));
+            }
+        }
+
+        for(Wind obstacleWind : winds){
+            if(overlaps(plane.getBoundingRect(),obstacleWind.getBoundingCircle())){
                 game.setScreen(new EndScreen(game));
             }
         }
@@ -197,7 +207,7 @@ public class GameScreen extends ScreenAdapter {
 //            float obstacleY = 152351f; // instead of number, it should be world height or swap X and Y
 
             birds.add(new Bird(Gdx.graphics.getWidth(), (float) (plane.y + Math.random() * (Gdx.graphics.getHeight())), game.bird, plane));
-
+            winds.add(new Wind(Gdx.graphics.getWidth(), (float) (plane.y + Math.random() * (Gdx.graphics.getHeight())), game.wind, plane));
 
             obstacleTimer = 0f;
         }
