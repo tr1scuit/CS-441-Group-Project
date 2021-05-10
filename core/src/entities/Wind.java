@@ -56,10 +56,10 @@ public class Wind {
 
     // return the render-offset x, y coordinates of the bird
     public float getRenderX(){
-        return (this.getBoundingCircle().x - this.windSprite.getWidth()/2);
+        return (this.getBoundingCircle().x - 100);
     }
     public float getRenderY(){
-        return (this.getBoundingCircle().y - this.windSprite.getHeight()/2);
+        return (this.getBoundingCircle().y - 100);
     }
 
     private void updateBounds(){

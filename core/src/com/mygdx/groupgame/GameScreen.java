@@ -122,7 +122,7 @@ public class GameScreen extends ScreenAdapter {
         //draw wind
         for(Wind w : winds){
             if(w != null){
-                game.batch.draw(game.wind, 200, 200,w.getRenderX(),w.getRenderY());
+                game.batch.draw(game.wind, w.getRenderX(),w.getRenderY(), 200, 200);
             }
         }
 
@@ -147,6 +147,9 @@ public class GameScreen extends ScreenAdapter {
         shapeRenderer.polygon(plane.getBoundingRect().getTransformedVertices());
         for(Bird bird : birds){
             shapeRenderer.circle(bird.getBoundingCircle().x, bird.getBoundingCircle().y, bird.getBoundingCircle().radius);
+        }
+        for(Wind wind : winds){
+            shapeRenderer.circle(wind.getBoundingCircle().x, wind.getBoundingCircle().y, wind.getBoundingCircle().radius);
         }
         shapeRenderer.end();
     }
