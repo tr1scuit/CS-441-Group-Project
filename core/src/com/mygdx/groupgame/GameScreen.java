@@ -18,6 +18,7 @@ import entities.Bird;
 import entities.Plane;
 import entities.Wind;
 import helpers.InputHandler;
+import ui.Speedometer;
 
 
 public class GameScreen extends ScreenAdapter {
@@ -35,6 +36,7 @@ public class GameScreen extends ScreenAdapter {
     public static final float OBSTACLE_SPAWN_TIME = 5f;  //obstacle spawn time
     private Array<Bird> birds = new Array<Bird>(); // bird obstacle
     private float obstacleTimer;    // timer for obstacles
+    Speedometer speedometer;
 
     private Array<Wind> winds = new Array<>();
 
@@ -55,6 +57,8 @@ public class GameScreen extends ScreenAdapter {
         // plane position
         // bird status
         // management trackers
+        speedometer = new Speedometer((game.w * 0.833f), 30, 250, 250, plane);
+        speedometer.reset();
         plane.x = 0;
         plane.y = 200;
         plane.xVel = 0;
@@ -131,6 +135,8 @@ public class GameScreen extends ScreenAdapter {
         game.font.draw(game.batch, "Time: " + parseTime(game.time), game.w*0.1f, game.h*0.1f);
         game.batch.draw(game.miniPlane, game.w*(float)(plane.x / (levelLength+game.runway.getWidth()*3)), game.h*0.86f);
         game.batch.draw(game.altMark, (float)(5), game.h*(float)((plane.y)/4000));
+        game.batch.draw(speedometer.getMeter(), speedometer.getX(), speedometer.getY(), speedometer.getX(), speedometer.getY(), 250, 250, 1, 1, 0, 0, 0, 250, 250, false, false);
+        game.batch.draw(speedometer.getNeedle(), speedometer.getX(), speedometer.getY(), 125, 125, 250, 250, 1, 1, speedometer.getRot(), 0, 0, 250, 250, false, false);
 
         // draw debug values
         //game.font.draw(game.batch, "Plane Sim WIP1", game.w * .1f, game.h * 0.89f);
@@ -157,6 +163,7 @@ public class GameScreen extends ScreenAdapter {
     public void update(float delta){
         game.time += 0.01666666;
         plane.update();
+        speedometer.update();
         updateObstacles(delta);
         // update gamestate flags
         // in-the-air
