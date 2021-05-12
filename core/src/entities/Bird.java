@@ -6,16 +6,16 @@ import com.badlogic.gdx.math.Circle;
 
 public class Bird {
 
-    private static final float BOUND_RADIUS = 100f;
-    private static final float SIZE = 2*BOUND_RADIUS;
+    public static final float BOUND_RADIUS = 100f;
+    public static final float SIZE = 2*BOUND_RADIUS;
 
-    private static Sprite birdSprite;
-    private float x,y,staticY;
+    public static Sprite birdSprite;
+    public float x,y,staticY;
 
-    private float xSpeed = 30f;
+    public float xSpeed = 30f;
 
-    private Circle bounds;
-    private Plane plane;
+    public Circle bounds;
+    public Plane plane;
 
     public Circle getBoundingCircle(){
         return bounds;
@@ -61,7 +61,7 @@ public class Bird {
         return (this.getBoundingCircle().y - this.birdSprite.getHeight()/2);
     }
 
-    private void updateBounds(){
+    public void updateBounds(){
         bounds.setPosition(x,y);
     }
 

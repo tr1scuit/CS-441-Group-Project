@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import entities.Bird;
+import entities.BounceBird;
 import entities.Plane;
 import entities.Wind;
 import helpers.InputHandler;
@@ -30,7 +31,7 @@ public class GameScreen extends ScreenAdapter {
 
     // variables for local gamestate
     // gamePhase = 0 for takeoff, 1 for inflight, 2 for landing
-    private int gamePhase = 0;
+    public static int gamePhase = 0;
     private float levelLength;
     private Plane plane;
     private ShapeRenderer shapeRenderer;
@@ -49,6 +50,7 @@ public class GameScreen extends ScreenAdapter {
         this.game = game;
         this.levelLength = levelLength;
         this.plane = game.airplane;
+        plane.crashed = false;
         this.shapeRenderer = game.shapeRenderer;
 //        birds.add(new Bird(Gdx.graphics.getWidth(), 1000, game.bird, plane));
         Gdx.input.setInputProcessor(new InputHandler(game));
@@ -69,8 +71,8 @@ public class GameScreen extends ScreenAdapter {
         plane.xAcc = 0;
         plane.yAcc = 0;
         plane.lift = 0;
-        plane.gravity = -1;
         plane.rot = 0;
+        plane.crashed = false;
         game.time = 0;
         birds.clear();
     }
@@ -91,9 +93,9 @@ public class GameScreen extends ScreenAdapter {
         // Runway Start
         if(gamePhase == 0){
             //game.runway.flip(1, 1);
-            game.batch.draw(game.runway.getTexture(), 0 - plane.x, 0 - plane.y + 200, 4*game.runway.getWidth(), game.runway.getHeight(),
+            game.batch.draw(game.runway.getTexture(), 0 - plane.x, 0 - plane.y + 200, 2*game.runway.getWidth(), game.runway.getHeight(),
                     (int)game.runway.getX(), (int)game.runway.getY(), (int)game.runway.getWidth(), (int)game.runway.getHeight(), false, false);
-            game.batch.draw(game.ground_loop.getTexture(), 0 - plane.x + 4*game.runway.getWidth(), 0 - plane.y + 200);
+            game.batch.draw(game.ground_loop.getTexture(), 0 - plane.x + 2*game.runway.getWidth(), 0 - plane.y + 200);
 //            game.batch.draw(game.ground_loop.getTexture(), 0 - plane.x + 2 * game.runway.getWidth(), 0 - plane.y + 200);
         }
         // In the air
@@ -171,7 +173,13 @@ public class GameScreen extends ScreenAdapter {
         updateObstacles(delta);
         // update gamestate flags
         // in-the-air
-        if(plane.x > 4*game.runway.getWidth()){
+
+        if(plane.crashed){
+            gamePhase = 0;
+            game.setScreen(new EndScreen(game));
+        }
+
+        if(plane.x > 2*game.runway.getWidth()){
             gamePhase = 1;
         }
         // touch-down
@@ -208,23 +216,24 @@ public class GameScreen extends ScreenAdapter {
         while(itr.hasNext()){
             obstacle = itr.next();
             if((obstacle != null) && overlaps(plane.getBoundingRect(), obstacle.getBoundingCircle())){
-                birds.remove(obstacle);
+                itr.remove();
             }
         }
 
         for(Wind obstacleWind : winds){
-            if(overlaps(plane.getBoundingRect(),obstacleWind.getBoundingCircle())){
-                game.setScreen(new EndScreen(game));
-            }
+//            if(overlaps(plane.getBoundingRect(),obstacleWind.getBoundingCircle())){
+//                game.setScreen(new EndScreen(game));
+//            }
         }
-        if(obstacleTimer >= OBSTACLE_SPAWN_TIME && gamePhase == 1){
+        if(obstacleTimer >= OBSTACLE_SPAWN_TIME && gamePhase == 1 && birds.size() <= 2){
 
 //            float min = 0f;
 //            float max = 12534f; //instead of the number it should be world width
 //            float obstacleX = MathUtils.random(min,max);
 //            float obstacleY = 152351f; // instead of number, it should be world height or swap X and Y
 
-            birds.add(new Bird(Gdx.graphics.getWidth(), (float) (plane.y + Math.random() * (Gdx.graphics.getHeight())), game.bird, plane));
+//            birds.add(new Bird(Gdx.graphics.getWidth(), (float) (plane.y + Math.random() * (Gdx.graphics.getHeight())), game.bird, plane));
+            birds.add(new BounceBird(Gdx.graphics.getWidth(), (float) (plane.y + Math.random() * (Gdx.graphics.getHeight())), game.bird, plane));
             winds.add(new Wind(Gdx.graphics.getWidth(), (float) (plane.y + Math.random() * (Gdx.graphics.getHeight())), game.wind, plane));
 
             obstacleTimer = 0f;

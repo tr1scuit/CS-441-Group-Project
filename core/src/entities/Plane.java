@@ -2,6 +2,7 @@ package entities;
 
 
 import com.badlogic.gdx.math.Polygon;
+import com.mygdx.groupgame.GameScreen;
 import com.mygdx.groupgame.RunwayRunners;
 
 public class Plane {
@@ -9,8 +10,9 @@ public class Plane {
     public float xVel = 0, yVel = 0;
     public float xAcc = 0, yAcc = 0;
     public float lift = 0;
-    public float gravity = -2;
+    public float gravity = -0.1f;
     public float rot = 0;
+    public boolean crashed = false;
     private Polygon boundingRect;
     private float width, height;
 
@@ -35,10 +37,10 @@ public class Plane {
         // Horizontal Movement
 
         if(game.finger.touched && game.finger.touchY > game.h/2 && game.finger.touchX < game.w / 2) {
-            xAcc = 1f;
+            xAcc = 0.4f;
         }
         else if(game.finger.touched && game.finger.touchY < game.h/2 && game.finger.touchX < game.w / 2 ){
-            xAcc = -1f;
+            xAcc = -0.4f;
         }
         else {
             xAcc = 0f;
@@ -61,12 +63,10 @@ public class Plane {
 
         // only apply lift if a certain speed
 //        if(xVel > 60 && rot > 0){
-        if(rot > 0){
-            yAcc = rot / 90;
+        if(rot >= 0){
+            yAcc = (float) ((rot / 90) * Math.pow((double)(xVel/50), 2));
         }
-        if(rot < 0){
-            yAcc = rot / 90;
-        }
+
 
 
         // update plane xy physics ( acceleration limit )
@@ -93,28 +93,37 @@ public class Plane {
 
 
         xVel += xAcc;
-        yVel += yAcc;
+        yVel += yAcc + gravity;
         if(xVel > 70){
             xVel = 70;
 //            yAcc += 0.5;
         }
-        if(xVel < 68){
-            yAcc -= 0.5;
-        }
+//        if(xVel < 68){
+//            yAcc -= 0.5;
+//        }
         if(xVel < 0){
             xVel = 0;
         }
         if(yVel > 10){
             yVel = 10;
         }
-        if(yVel < -10) {
-            yVel = -10;
-        }
+//        if(yVel < -10) {
+//            yVel = -10;
+//        }
 
         x += xVel;
         y += yVel;
-        if(x < 0){ x = 0;}
-        if(y < 200) { y = 200; yVel = 0; }
+        if(x < 0){
+
+            x = 0;
+        }
+        if(y < 200) {
+            if(yVel <= -15 && GameScreen.gamePhase != 0){
+                crashed = true;
+            }
+            y = 200;
+            yVel = 0;
+        }
 
         // update bounding box
         if(this.y < 450){
@@ -128,5 +137,9 @@ public class Plane {
         boundingRect.setRotation(rot);
         // debug line
 //        System.out.println("plane x, y:" + x + ", " + y);
+    }
+
+    private void crash() {
+
     }
 }
