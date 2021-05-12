@@ -66,7 +66,7 @@ public class TitleScreen extends ScreenAdapter {
 
         start.check(game.finger.touchX, game.finger.touchY, game.finger.touched);
         if(!game.finger.touched && start.check(game.finger.touchX, game.finger.touchY, false)){
-            game.setScreen(new GameScreen(game, 90000));
+            game.setScreen(new GameScreen(game, 900000));
         }
 
         help.check(game.finger.touchX, game.finger.touchY, game.finger.touched);

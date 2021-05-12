@@ -13,6 +13,9 @@ import com.badlogic.gdx.utils.Array;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import entities.Bird;
 import entities.Plane;
@@ -34,7 +37,7 @@ public class GameScreen extends ScreenAdapter {
     private NumberFormat formatter = new DecimalFormat("#0.00");
     private float runtime = 0f;
     public static final float OBSTACLE_SPAWN_TIME = 5f;  //obstacle spawn time
-    private Array<Bird> birds = new Array<Bird>(); // bird obstacle
+    private List<Bird> birds = new ArrayList<Bird>(); // bird obstacle
     private float obstacleTimer;    // timer for obstacles
     Speedometer speedometer;
 
@@ -88,9 +91,10 @@ public class GameScreen extends ScreenAdapter {
         // Runway Start
         if(gamePhase == 0){
             //game.runway.flip(1, 1);
-            game.batch.draw(game.runway.getTexture(), 0 - plane.x, 0 - plane.y + 200, game.runway.getWidth(), game.runway.getHeight(),
+            game.batch.draw(game.runway.getTexture(), 0 - plane.x, 0 - plane.y + 200, 4*game.runway.getWidth(), game.runway.getHeight(),
                     (int)game.runway.getX(), (int)game.runway.getY(), (int)game.runway.getWidth(), (int)game.runway.getHeight(), false, false);
-            game.batch.draw(game.ground_loop.getTexture(), 0 - plane.x + game.runway.getWidth(), 0 - plane.y + 200);
+            game.batch.draw(game.ground_loop.getTexture(), 0 - plane.x + 4*game.runway.getWidth(), 0 - plane.y + 200);
+//            game.batch.draw(game.ground_loop.getTexture(), 0 - plane.x + 2 * game.runway.getWidth(), 0 - plane.y + 200);
         }
         // In the air
         if(gamePhase == 1){
@@ -167,7 +171,7 @@ public class GameScreen extends ScreenAdapter {
         updateObstacles(delta);
         // update gamestate flags
         // in-the-air
-        if(plane.x > game.runway.getWidth()){
+        if(plane.x > 4*game.runway.getWidth()){
             gamePhase = 1;
         }
         // touch-down
@@ -198,9 +202,13 @@ public class GameScreen extends ScreenAdapter {
     private void createNewObstacle(float delta) {
 
         obstacleTimer += delta;      //delta
-        for(Bird obstacle : birds){
-            if(overlaps(plane.getBoundingRect(), obstacle.getBoundingCircle())){
-                game.setScreen(new EndScreen(game));
+
+        Iterator<Bird> itr = birds.iterator();
+        Bird obstacle = null;
+        while(itr.hasNext()){
+            obstacle = itr.next();
+            if((obstacle != null) && overlaps(plane.getBoundingRect(), obstacle.getBoundingCircle())){
+                birds.remove(obstacle);
             }
         }
 

@@ -47,13 +47,13 @@ public class Plane {
 
         // Rotation
         if(game.finger.touched && game.finger.touchY > game.h/2 && game.finger.touchX > game.w / 2) {
-            rot += 1;
+            rot += 0.5;
             if(rot > 75){
                 rot = 75;
             }
         }
         if(game.finger.touched && game.finger.touchY < game.h/2 && game.finger.touchX > game.w / 2 ){
-            rot -= 1;
+            rot -= 0.5;
             if(rot < -75){
                 rot = -75;
             }
