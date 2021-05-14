@@ -43,6 +43,7 @@ public class RunwayRunners extends Game {
 
 	public TouchInfo finger;
 
+	public int levelLength;
 	public Texture logo;
 	public Texture menu1;
 	public Texture menu2;
@@ -70,6 +71,7 @@ public class RunwayRunners extends Game {
 		batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
 		finger = new TouchInfo();
+		levelLength = 50000;
 
 		// Game Sprites
 		bird = new Sprite(new Texture("bird.png"));

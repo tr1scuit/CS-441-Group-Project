@@ -11,7 +11,9 @@ public class Plane {
     public float xAcc = 0, yAcc = 0;
     public float lift = 0;
     public float gravity = -0.1f;
+    public float ySink = 0;
     public float rot = 0;
+    public float maxSpeed = 70;
     public boolean crashed = false;
     private Polygon boundingRect;
     private float width, height;
@@ -67,15 +69,19 @@ public class Plane {
             yAcc = (float) ((rot / 90) * Math.pow((double)(xVel/50), 2));
         }
 
+        // change maxSpeed given a certain altitude;
+        if(y > 700 && maxSpeed < 115 ){
+            maxSpeed = (float)(70 + ((y-700)*0.05));
+        }
+        // change maxSpeed given a certain altitude;
+        if(y < 1640 && maxSpeed > 70){
+            maxSpeed = (float)(115 - ((1640-y)*0.05));
+        }
+
 
 
         // update plane xy physics ( acceleration limit )
-//        if(xAcc > 1){
-//            xAcc = 1;
-//        }
-//        if(xAcc < -1){
-//            xAcc = -1;
-//        }
+
         if(yAcc > 1){
             yAcc = 1;
         }
@@ -93,10 +99,9 @@ public class Plane {
 
 
         xVel += xAcc;
-        yVel += yAcc + gravity;
-        if(xVel > 70){
-            xVel = 70;
-//            yAcc += 0.5;
+        yVel += yAcc + gravity + ySink;
+        if(xVel > maxSpeed){
+            xVel = maxSpeed;
         }
 //        if(xVel < 68){
 //            yAcc -= 0.5;
@@ -114,15 +119,20 @@ public class Plane {
         x += xVel;
         y += yVel;
         if(x < 0){
-
             x = 0;
         }
         if(y < 200) {
-            if(yVel <= -15 && GameScreen.gamePhase != 0){
+            if(yVel <= -30 && GameScreen.gamePhase != 0){
                 crashed = true;
             }
             y = 200;
             yVel = 0;
+        }
+        // hard sink value for above max altitude
+        if(y > 2000){
+            ySink = -3;
+        } else if (y < 2000){
+            ySink = 0;
         }
 
         // update bounding box

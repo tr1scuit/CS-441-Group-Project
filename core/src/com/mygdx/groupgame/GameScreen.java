@@ -37,12 +37,16 @@ public class GameScreen extends ScreenAdapter {
     private ShapeRenderer shapeRenderer;
     private NumberFormat formatter = new DecimalFormat("#0.00");
     private float runtime = 0f;
+    private float groundTime = 0;
+    private int damage = 0;
+    private int maxSpeed = 70;
     public static final float OBSTACLE_SPAWN_TIME = 5f;  //obstacle spawn time
     private List<Bird> birds = new ArrayList<Bird>(); // bird obstacle
+    private Array<Wind> winds = new Array<>();
     private float obstacleTimer;    // timer for obstacles
     Speedometer speedometer;
 
-    private Array<Wind> winds = new Array<>();
+
 
 
 
@@ -62,6 +66,9 @@ public class GameScreen extends ScreenAdapter {
         // plane position
         // bird status
         // management trackers
+        gamePhase = 0;
+        groundTime = 0;
+        damage = 0;
         speedometer = new Speedometer((game.w * 0.833f), 30, 250, 250, plane);
         speedometer.reset();
         plane.x = 0;
@@ -73,6 +80,7 @@ public class GameScreen extends ScreenAdapter {
         plane.lift = 0;
         plane.rot = 0;
         plane.crashed = false;
+        plane.maxSpeed = 70;
         game.time = 0;
         birds.clear();
     }
@@ -140,20 +148,22 @@ public class GameScreen extends ScreenAdapter {
         // draw ui
         game.font.draw(game.batch, "Time: " + parseTime(game.time), game.w*0.1f, game.h*0.1f);
         game.batch.draw(game.miniPlane, game.w*(float)(plane.x / (levelLength+game.runway.getWidth()*3)), game.h*0.86f);
-        game.batch.draw(game.altMark, (float)(5), game.h*(float)((plane.y)/4000));
+        game.batch.draw(game.altMark, (float)(5), game.h*(float)((plane.y)/2100));
         game.batch.draw(speedometer.getMeter(), speedometer.getX(), speedometer.getY(), speedometer.getX(), speedometer.getY(), 250, 250, 1, 1, 0, 0, 0, 250, 250, false, false);
         game.batch.draw(speedometer.getNeedle(), speedometer.getX(), speedometer.getY(), 125, 125, 250, 250, 1, 1, speedometer.getRot(), 0, 0, 250, 250, false, false);
 
         // draw debug values
         //game.font.draw(game.batch, "Plane Sim WIP1", game.w * .1f, game.h * 0.89f);
         //game.font.draw(game.batch, "Tap left corners for accel, tap right corners for rotation", game.w * .1f, game.h * 0.79f);
+        /*
         game.font.getData().setScale(0.7f, 0.7f);
+        game.font.draw(game.batch, "vel x,y: " + plane.x + " " + plane.y, game.w * .05f, game.h * 0.75f);
         game.font.draw(game.batch, "vel x,y: " + plane.xVel + " " + plane.yVel, game.w * .05f, game.h * 0.7f);
         game.font.draw(game.batch, "acc x,y: " + plane.xAcc + " " + plane.yAcc, game.w * .05f, game.h * 0.65f);
         game.font.draw(game.batch, "rotation: " + plane.rot + " " + "", game.w * 0.5f, game.h * 0.6f);
-
+*/
         game.batch.end();
-
+/*
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.RED);
         shapeRenderer.polygon(plane.getBoundingRect().getTransformedVertices());
@@ -164,6 +174,7 @@ public class GameScreen extends ScreenAdapter {
             shapeRenderer.circle(wind.getBoundingCircle().x, wind.getBoundingCircle().y, wind.getBoundingCircle().radius);
         }
         shapeRenderer.end();
+*/
     }
 
     public void update(float delta){
@@ -174,9 +185,21 @@ public class GameScreen extends ScreenAdapter {
         // update gamestate flags
         // in-the-air
 
+        // clear states
+        if(gamePhase == 0 || gamePhase == 2){
+            birds.clear();
+            winds.clear();
+        }
+
+
+        // fail conditions
+
         if(plane.crashed){
             gamePhase = 0;
-            game.setScreen(new EndScreen(game));
+            game.setScreen(new EndScreen(game, game.time, 2));
+        }
+        if(damage >= 3){
+            game.setScreen(new EndScreen(game, game.time, 1));
         }
 
         if(plane.x > 2*game.runway.getWidth()){
@@ -189,7 +212,12 @@ public class GameScreen extends ScreenAdapter {
         // reached the end
         if(plane.x > game.runway.getWidth()*2 + levelLength){
             gamePhase = 0;
-            game.setScreen(new EndScreen(game));
+            if(plane.y > 250){
+                game.setScreen(new EndScreen(game, game.time, 3));
+            } else{
+                game.setScreen(new EndScreen(game, game.time, 0));
+            }
+
         }
 
     }
@@ -216,15 +244,22 @@ public class GameScreen extends ScreenAdapter {
         while(itr.hasNext()){
             obstacle = itr.next();
             if((obstacle != null) && overlaps(plane.getBoundingRect(), obstacle.getBoundingCircle())){
+                damage++;
                 itr.remove();
             }
         }
 
-        for(Wind obstacleWind : winds){
-//            if(overlaps(plane.getBoundingRect(),obstacleWind.getBoundingCircle())){
-//                game.setScreen(new EndScreen(game));
-//            }
+        Iterator<Wind> itr2 = winds.iterator();
+        Wind obstacleW = null;
+        while(itr2.hasNext()){
+            obstacleW = itr2.next();
+            if((obstacleW != null) && overlaps(plane.getBoundingRect(), obstacleW.getBoundingCircle())){
+                plane.xVel -= 17;
+                itr2.remove();
+            }
         }
+
+
         if(obstacleTimer >= OBSTACLE_SPAWN_TIME && gamePhase == 1 && birds.size() <= 2){
 
 //            float min = 0f;
