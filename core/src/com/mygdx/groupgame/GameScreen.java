@@ -269,7 +269,7 @@ public class GameScreen extends ScreenAdapter {
 
 //            birds.add(new Bird(Gdx.graphics.getWidth(), (float) (plane.y + Math.random() * (Gdx.graphics.getHeight())), game.bird, plane));
             birds.add(new BounceBird(Gdx.graphics.getWidth(), (float) (plane.y + Math.random() * (Gdx.graphics.getHeight())), game.bird, plane));
-            winds.add(new Wind(Gdx.graphics.getWidth(), (float) (plane.y + Math.random() * (Gdx.graphics.getHeight())), game.wind, plane));
+            winds.add(new Wind(Gdx.graphics.getWidth()+((float)Math.random()*500), (float) (plane.y + Math.random() * (Gdx.graphics.getHeight())), game.wind, plane));
 
             obstacleTimer = 0f;
         }

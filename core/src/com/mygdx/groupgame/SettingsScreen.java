@@ -17,6 +17,7 @@ public class SettingsScreen extends ScreenAdapter {
     Slider slider;
     Button help;
     Button confirm;
+    Button reset;
     int[] range = {45000, 90000};
 
     public SettingsScreen(RunwayRunners game){
@@ -32,6 +33,7 @@ public class SettingsScreen extends ScreenAdapter {
         slider = new Slider(game.w * 0.1f, game.h*0.5f, 1600, 30, "Level Length", range);
         //help = new Button(game.w * 0.75f, game.h * 0.22f, 400, 100,"Back");
         confirm = new Button(game.w * 0.75f, game.h * 0.09f, 400, 100,"Confirm");
+        reset = new Button(game.w * 0.3f, game.h * 0.09f, 575, 100,"RESET SCORES");
 
         Gdx.input.setInputProcessor(new InputHandler(game));
     }
@@ -59,8 +61,10 @@ public class SettingsScreen extends ScreenAdapter {
         game.batch.draw(slider.getSprite(), slider.getX(), slider.getY(), slider.getWidth(), slider.getHeight());
         game.batch.draw(slider.getSprite(), slider.getSlideX(), slider.getSlideY(), 50, 100);
         game.batch.draw(confirm.getSprite(), confirm.getX(), confirm.getY(), confirm.getWidth(), confirm.getHeight());
+        game.batch.draw(reset.getSprite(), reset.getX(), reset.getY(), reset.getWidth(), reset.getHeight());
         game.font.draw(game.batch, slider.get_text(), slider.textX(), slider.textY());
         game.font.draw(game.batch, confirm.getButton_text(), confirm.textX(), confirm.textY());
+        game.font.draw(game.batch, reset.getButton_text(), reset.textX(), reset.textY());
     }
 
     public void updateUI(){
@@ -75,6 +79,12 @@ public class SettingsScreen extends ScreenAdapter {
         confirm.check(game.finger.touchX, game.finger.touchY, game.finger.touched);
         if(!game.finger.touched && confirm.check(game.finger.touchX, game.finger.touchY, false)){
             game.setScreen(new TitleScreen(game));
+        }
+
+        reset.check(game.finger.touchX, game.finger.touchY, game.finger.touched);
+        if(!game.finger.touched && reset.check(game.finger.touchX, game.finger.touchY, false)){
+            game.prefs.clear();
+            game.prefs.flush();
         }
     }
 

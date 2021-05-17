@@ -13,7 +13,7 @@ public class Wind {
     private static Sprite windSprite;
     private float x,y,staticY;
 
-    private float xSpeed = 30f;
+    private float xSpeed = 90f;
 
     private Circle boundWind;
     private Plane plane;

@@ -44,6 +44,7 @@ public class RunwayRunners extends Game {
 	public TouchInfo finger;
 
 	public int levelLength;
+	public int[] scores;
 	public Texture logo;
 	public Texture menu1;
 	public Texture menu2;
@@ -65,8 +66,10 @@ public class RunwayRunners extends Game {
 	@Override
 	public void create () {
 		// initialize game variables
+
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
+		scores = new int[3];
 		prefs = Gdx.app.getPreferences("GamePrefs");
 		batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
@@ -109,8 +112,6 @@ public class RunwayRunners extends Game {
 
 		miniPlane = new Sprite(new Texture("MiniPlane.png"));
 		altMark = new Sprite(new Texture("altitudeMarker.png"));
-		//spedometer = new Sprite(new Texture("spedometer.png"));
-		//spedoNeedle = new Sprite("spedoNeedle.png");
 
 		setScreen(new TitleScreen(this));
 	}
